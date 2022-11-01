@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.iths.laboration3.controller.CanvasViewController">
+   <children>
+      <Label layoutX="225.0" layoutY="27.0" prefWidth="73.0" text="Shape" />
+      <ChoiceBox fx:id="choiceBox" layoutX="225.0" layoutY="49.0" prefWidth="150.0" />
+      <Label layoutX="375.0" layoutY="27.0" text="Color" />
+      <ColorPicker fx:id="colorPicker" layoutX="375.0" layoutY="49.0" />
+      <Canvas fx:id="canvas" height="350.0" layoutX="100.0" layoutY="49.0" onMouseClicked="#canvasClicked" width="400.0" />
+   </children>
+</AnchorPane>
