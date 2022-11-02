@@ -5,10 +5,13 @@ import javafx.scene.paint.Color;
 public abstract class ShapeModel {
     private final double x;
     private final double y;
+    protected ShapeModel shape;
+    protected Color color;
 
-    public ShapeModel(double x, double y) {
+    public ShapeModel(double x, double y, Color color) {
         this.x = x;
         this.y = y;
+        this.color = color;
     }
 
     public double getX() {
@@ -19,12 +22,12 @@ public abstract class ShapeModel {
         return y;
     }
 
-    public static ShapeModel createShape(ShapeType type, double x, double y, Color color) {
+    public static ShapeModel createShape(ShapeType type, double x, double y, double width, double height, Color color) {
 
         return switch (type) {
-            case CIRCLE -> new CircleModel(x, y, color);
-            case RECTANGLE -> new RectangleModel(x, y, color);
-            case TRIANGLE -> new TriangleModel(x, y, color);
+            case CIRCLE -> new CircleModel(x, y, color, width);
+            case RECTANGLE -> new RectangleModel(x, y, width, height, color);
+            case TRIANGLE -> new TriangleModel(x, y, width, color);
         };
     }
 

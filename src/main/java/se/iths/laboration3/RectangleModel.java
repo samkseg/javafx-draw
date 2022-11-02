@@ -5,13 +5,18 @@ import javafx.scene.paint.Color;
 
 
 public class RectangleModel extends ShapeModel {
-    public RectangleModel(double x, double y, Color color) {
-        super(x,y);
+    private double height;
+    private double width;
+    public RectangleModel(double x, double y, double width, double height, Color color) {
+
+        super(x,y,color);
+        this.width = width;
+        this.height = height;
     }
 
     @Override
     public void draw(GraphicsContext context) {
-        context.setFill(Color.web("004B87"));
-        context.fillRect(super.getX(),super.getY(),50,50);
+        context.setFill(color);
+        context.fillRect(super.getX(),super.getY(),width,height);
     }
 }
