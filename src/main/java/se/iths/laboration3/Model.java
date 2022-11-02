@@ -7,7 +7,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Shape;
 
 public class Model {
     ObjectProperty<ShapeType> currentShapeType = new SimpleObjectProperty<>(ShapeType.CIRCLE);
@@ -17,22 +16,26 @@ public class Model {
     public void setCurrentShapeType(ShapeType currentShapeType) {
         this.currentShapeType.set(currentShapeType);
     }
-    public ObservableList<? extends ShapeModel> getShapes() {
+    public ObservableList<? extends Shape> getShapes() {
         return shapes;
     }
 
-    public ShapeModel addShape(ShapeModel shape) {
+    public Shape addShape(Shape shape) {
         var oShape = new ObsShape(shape);
         shapes.add(oShape);
         return shape;
     }
+    public void remove(){
+        shapes.remove(this);
+
+    }
 
 }
-class ObsShape extends ShapeModel {
-    ShapeModel shape;
+class ObsShape extends Shape {
+    Shape shape;
     ObjectProperty<Color> color = new SimpleObjectProperty<>();
 
-    public ObsShape(ShapeModel shape){
+    public ObsShape(Shape shape){
         super(shape.getX(),shape.getY());
         this.shape = shape;
         color.set(shape.getColor());

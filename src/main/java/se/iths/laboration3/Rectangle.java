@@ -4,10 +4,10 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 
-public class RectangleModel extends ShapeModel {
+public class Rectangle extends Shape {
     private double height;
     private double width;
-    public RectangleModel(double x, double y, double width, double height, Color color) {
+    public Rectangle(double x, double y, double width, double height, Color color) {
 
         super(x,y);
         super.setColor(color);
