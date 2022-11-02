@@ -8,10 +8,9 @@ public abstract class ShapeModel {
     protected ShapeModel shape;
     protected Color color;
 
-    public ShapeModel(double x, double y, Color color) {
+    public ShapeModel(double x, double y) {
         this.x = x;
         this.y = y;
-        this.color = color;
     }
 
     public double getX() {
@@ -20,6 +19,14 @@ public abstract class ShapeModel {
 
     public double getY() {
         return y;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     public static ShapeModel createShape(ShapeType type, double x, double y, double width, double height, Color color) {

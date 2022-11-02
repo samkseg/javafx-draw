@@ -5,7 +5,8 @@ import javafx.scene.paint.Color;
 
 public class TriangleModel extends ShapeModel {
     public TriangleModel(double x, double y, double size, Color color) {
-        super(x,y,color);
+        super(x,y);
+        super.setColor(color);
     }
 
     @Override

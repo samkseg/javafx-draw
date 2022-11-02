@@ -9,7 +9,8 @@ public class RectangleModel extends ShapeModel {
     private double width;
     public RectangleModel(double x, double y, double width, double height, Color color) {
 
-        super(x,y,color);
+        super(x,y);
+        super.setColor(color);
         this.width = width;
         this.height = height;
     }

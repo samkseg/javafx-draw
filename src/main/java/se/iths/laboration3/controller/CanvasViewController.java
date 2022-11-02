@@ -1,5 +1,6 @@
 package se.iths.laboration3.controller;
 
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,6 +12,7 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import se.iths.laboration3.Model;
 import se.iths.laboration3.ShapeModel;
 import se.iths.laboration3.ShapeType;
 
@@ -27,8 +29,8 @@ public class CanvasViewController {
     public Slider widthSlider;
     public Slider heightSlider;
 
+    Model model = new Model();
     ObservableList<ShapeType> shapeTypesList = FXCollections.observableArrayList(ShapeType.values());
-    List<ShapeModel> shapeModelList = new ArrayList<>();
 
 
     public void initialize() {
@@ -36,13 +38,27 @@ public class CanvasViewController {
         choiceBox.setItems(shapeTypesList);
         choiceBox.setValue(ShapeType.CIRCLE);
         colorPicker.setValue(Color.WHITE);
+        model.getShapes().addListener(this::listChanged);
+    }
+
+    private void listChanged(Observable observable) {
+        var context = canvas.getGraphicsContext2D();
+        for (ShapeModel s : model.getShapes()) {
+            s.draw(context);
+        }
     }
     @FXML
     protected void canvasClicked(MouseEvent mouseEvent) {
 
-        ShapeModel shapeModel = ShapeModel.createShape(choiceBox.getValue(), mouseEvent.getX(), mouseEvent.getY(), widthSlider.getValue(), heightSlider.getValue(), colorPicker.getValue());
-        shapeModelList.add(shapeModel);
-        shapeModel.draw(context);
-        System.out.println(shapeModel);
+
+        // create shape
+        ShapeModel shape = ShapeModel.createShape(choiceBox.getValue(), mouseEvent.getX(), mouseEvent.getY(), widthSlider.getValue(), heightSlider.getValue(), colorPicker.getValue());
+        model.addShape(shape);
+
+        //render all shapes
+        /*var context = canvas.getGraphicsContext2D();
+        for (ShapeModel s : shapeModel.getShapes()) {
+            s.draw(context);
+        }*/
     }
 }

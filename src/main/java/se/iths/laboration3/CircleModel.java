@@ -6,8 +6,10 @@ import javafx.scene.paint.Color;
 public class CircleModel extends ShapeModel {
     private double radius;
     public CircleModel(double x, double y,  Color color, double radius) {
-        super(x,y,color);
+        super(x,y);
+        super.setColor(color);
         this.radius = radius;
+
     }
 
     @Override
