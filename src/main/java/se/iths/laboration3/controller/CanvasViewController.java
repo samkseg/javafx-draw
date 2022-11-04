@@ -68,7 +68,11 @@ public class CanvasViewController {
     private void colorPickerChange(Observable observable) {
         if (model.getSelectedShapes().size() > 0) {
             Shape shape = model.getSelectedShapes().get(0);
+            Color undoColor = shape.getColor();
             shape.setColor(colorPicker.getValue());
+
+            Command undo = () -> shape.setColor(undoColor);
+            undoCommandStack.push(undo);
             drawShapes();
         }
 
@@ -76,7 +80,7 @@ public class CanvasViewController {
 
     private void widthSliderChange(Observable observable) {
         widthText.setText(String.valueOf((int) widthSlider.getValue()));
-        if(model.getSelectedShapes().size() > 0) {
+        if (model.getSelectedShapes().size() > 0) {
             var shape = model.getSelectedShapes().get(0).getShape().getShape();
             if (shape instanceof Rectangle)
                 shape.reSizeX(widthSlider.getValue());
@@ -90,7 +94,7 @@ public class CanvasViewController {
 
     private void heightSliderChange(Observable observable) {
         heightText.setText(String.valueOf((int) heightSlider.getValue()));
-        if(model.getSelectedShapes().size() > 0){
+        if (model.getSelectedShapes().size() > 0) {
             var shape = model.getSelectedShapes().get(0).getShape().getShape();
             if (shape instanceof Rectangle)
                 shape.reSizeY(heightSlider.getValue());
@@ -104,7 +108,7 @@ public class CanvasViewController {
 
     private void drawShapes() {
         var context = canvas.getGraphicsContext2D();
-        context.clearRect(0,0, canvas.getWidth(),canvas.getHeight());
+        context.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         for (Shape s : model.getShapes()) {
             s.draw(context);
         }
@@ -162,17 +166,16 @@ public class CanvasViewController {
     @FXML
     protected void canvasClicked(MouseEvent mouseEvent) {
         int counter = 0;
-        for (int i = 0; i < model.getShapes().size(); i++) {
-            Shape shape = model.getShapes().get(i);
-            if(shape.onClick(mouseEvent) && select) {
-                if (shape.isSelected) {
-                    model.removeFromSelectedList(shape);
-                    shape.deSelect();
+        for (Shape s: model.getShapes()) {
+            if (s.onClick(mouseEvent) && select) {
+                if (s.isSelected) {
+                    s.deSelect();
+                    model.removeFromSelectedList();
                 }
-                if (!shape.isSelected) {
-                    model.removeFromSelectedList(shape);
-                    model.addSelectedList(shape);
-                    shape.select();
+                if (!s.isSelected) {
+                    s.select();
+                    model.removeFromSelectedList();
+                    model.addSelectedList(s);
                 }
             } else
                 counter++;
@@ -194,7 +197,7 @@ public class CanvasViewController {
     }
 
     @FXML
-    protected void undoStack(){
+    protected void undoStack() {
         if (undoCommandStack.size() > 0 && undoShapeStack.size() > 0) {
             for (Shape s : model.getSelectedShapes())
                 s.deSelect();
@@ -208,9 +211,10 @@ public class CanvasViewController {
         }
 
     }
+
     @FXML
-    protected void redoStack(){
-        if (redoCommandStack.size() > 0 && redoShapeStack.size() > 0){
+    protected void redoStack() {
+        if (redoCommandStack.size() > 0 && redoShapeStack.size() > 0) {
             model.getSelectedShapes().clear();
             Shape shape = redoShapeStack.pop();
             model.addShape(shape);
@@ -219,21 +223,24 @@ public class CanvasViewController {
             undoShapeStack.push(shape);
         }
     }
+
     @FXML
     protected void onClearButtonClick() {
-        context.clearRect(0,0, canvas.getWidth(),canvas.getHeight());
+        context.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         redoShapeStack.clear();
         undoShapeStack.clear();
         undoCommandStack.clear();
         redoCommandStack.clear();
         model.removeAll();
     }
+
     @FXML
-    protected void onUndoButtonClick(){
+    protected void onUndoButtonClick() {
         undoStack();
     }
+
     @FXML
-    protected void onRedoButtonClick(){
+    protected void onRedoButtonClick() {
         redoStack();
     }
 
@@ -245,7 +252,8 @@ public class CanvasViewController {
         select = true;
     }
 }
-    @FunctionalInterface
+
+@FunctionalInterface
 interface Command {
     public void execute();
 }

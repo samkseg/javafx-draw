@@ -23,25 +23,26 @@ public class Model {
     public void setCurrentShapeType(ShapeType currentShapeType) {
         this.currentShapeType.set(currentShapeType);
     }
+
     public ObservableList<? extends Shape> getShapes() {
         return shapes;
     }
+
     public ObservableList<? extends Shape> getSelectedShapes() {
         return selectedShapes;
     }
 
     public void addSelectedList(Shape shape) {
-        removeFromSelectedList(shape);
+        removeFromSelectedList();
         var oShape = new ObsShape(shape);
         selectedShapes.add(oShape);
         oShape.select();
     }
 
-    public void removeFromSelectedList(Shape shape){
-        var oShape = new ObsShape(shape);
+    public void removeFromSelectedList() {
         for (Shape s : getSelectedShapes())
             s.deSelect();
-        selectedShapes.remove(oShape);
+        selectedShapes.clear();
     }
 
     public void addShape(Shape shape) {
@@ -49,25 +50,27 @@ public class Model {
         shapes.add(oShape);
     }
 
-    public void remove(Shape shape){
+    public void remove(Shape shape) {
         var oShape = new ObsShape(shape);
         if (shapes.size() > 0) {
             shapes.remove(oShape);
         }
     }
-    public void removeAll(){
+
+    public void removeAll() {
         shapes.clear();
         selectedShapes.clear();
     }
 
 }
+
 class ObsShape extends Shape {
     Shape shape;
     ObjectProperty<Color> color = new SimpleObjectProperty<>();
     ObjectProperty<Color> borderColor = new SimpleObjectProperty<>();
 
-    public ObsShape(Shape shape){
-        super(shape.getX(),shape.getY());
+    public ObsShape(Shape shape) {
+        super(shape.getX(), shape.getY());
         this.shape = shape;
         color.set(shape.getColor());
         borderColor.set(shape.getBorderColor());
@@ -76,33 +79,42 @@ class ObsShape extends Shape {
     public ObjectProperty<Color> colorProperty() {
         return color;
     }
+
     public ObjectProperty<Color> borderColorProperty() {
         return borderColor;
     }
+
     @Override
     public boolean onClick(MouseEvent mouseEvent) {
         return shape.onClick(mouseEvent);
     }
 
-    public Shape getShape(){return this.shape;}
+    public Shape getShape() {
+        return this.shape;
+    }
+
     @Override
     public Color getColor() {
         return color.get();
     }
+
     @Override
     public Color getBorderColor() {
         return borderColor.get();
     }
+
     @Override
     public void setColor(Color color) {
         shape.setColor(color);
         this.color.set(color);
     }
+
     @Override
     public void setBorderColor(Color borderColor) {
         shape.setBorderColor(borderColor);
         this.borderColor.set(borderColor);
     }
+
     @Override
     public void draw(GraphicsContext context) {
         this.shape.draw(context);
@@ -112,6 +124,7 @@ class ObsShape extends Shape {
     public void reSizeX(double x) {
         this.shape.reSizeX(x);
     }
+
     @Override
     public void reSizeY(double y) {
         this.shape.reSizeY(y);
