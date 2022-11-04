@@ -22,20 +22,27 @@ public class Rectangle extends Shape {
     @Override
     public void draw(GraphicsContext context) {
         context.setFill(getBorderColor());
-        context.fillRect(getX()-2,getY()-2,width+4,height+4);
+        context.fillRect(getX()-(width/2)-2,getY()-(height/2)-2,(width)+4,(height)+4);
         context.setFill(getColor());
-        context.fillRect(getX(),getY(),width,height);
+        context.fillRect(getX()-(width/2),getY()-(height/2),width,height);
     }
     @Override
     public boolean onClick(MouseEvent mouseEvent){
         double x = mouseEvent.getX();
         double y = mouseEvent.getY();
-        double xArea = getX() + height;
-        double yArea = getY() + width;
+        double xArea = getX() + (width/2);
+        double yArea = getY() + (height/2);
 
-        return x >= getX() &&
+        return x >= getX() - (width/2) &&
                 x <= xArea &&
-                y >= getY() &&
+                y >= getY() - (height/2) &&
                 y <= yArea;
+    }
+
+    public void reSizeX(double width) {
+        this.width = width;
+    }
+    public void reSizeY(double height) {
+        this.height = height;
     }
 }

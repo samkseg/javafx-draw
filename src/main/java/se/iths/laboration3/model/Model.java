@@ -33,12 +33,10 @@ public class Model {
     }
 
     public void addSelectedList(Shape shape) {
-        if (true) {
-            removeFromSelectedList();
-            var oShape = new ObsShape(shape);
-            selectedShapes.add(oShape);
-            oShape.select();
-        }
+        removeFromSelectedList();
+        var oShape = new ObsShape(shape);
+        selectedShapes.add(oShape);
+        oShape.select();
     }
 
     public void removeFromSelectedList(){
@@ -89,6 +87,7 @@ class ObsShape extends Shape {
         return shape.onClick(mouseEvent);
     }
 
+    public Shape getShape(){return this.shape;}
     @Override
     public Color getColor() {
         return color.get();
@@ -110,6 +109,15 @@ class ObsShape extends Shape {
     @Override
     public void draw(GraphicsContext context) {
         this.shape.draw(context);
+    }
+
+    @Override
+    public void reSizeX(double x) {
+        this.shape.reSizeX(x);
+    }
+    @Override
+    public void reSizeY(double y) {
+        this.shape.reSizeY(y);
     }
 
 

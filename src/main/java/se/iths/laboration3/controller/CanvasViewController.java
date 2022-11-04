@@ -3,6 +3,7 @@ package se.iths.laboration3.controller;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -10,8 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import se.iths.laboration3.model.Model;
-import se.iths.laboration3.shapes.Shape;
-import se.iths.laboration3.shapes.ShapeType;
+import se.iths.laboration3.shapes.*;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -26,11 +26,17 @@ public class CanvasViewController {
     public Slider heightSlider;
     public Label widthLabel;
     public Label heightLabel;
+    public TextField widthText;
+    public TextField heightText;
+    public Button createButton;
+    public Button selectButton;
     public Button clearButton;
     public Button undoButton;
     public Button redoButton;
 
     Model model = new Model();
+
+    private boolean select;
     ObservableList<ShapeType> shapeTypesList = FXCollections.observableArrayList(ShapeType.values());
     static Deque<Command> undoCommandStack = new ArrayDeque<>();
     static Deque<Shape> undoShapeStack = new ArrayDeque<>();
@@ -45,11 +51,58 @@ public class CanvasViewController {
         colorPicker.setValue(Color.WHITE);
         widthSlider.setMin(1);
         heightSlider.setMin(1);
+        widthSlider.setMax(500);
+        heightSlider.setMax(500);
+        widthSlider.setValue(50);
+        heightSlider.setValue(50);
+        widthText.setText(String.valueOf(widthSlider.getValue()));
+        heightText.setText(String.valueOf(heightSlider.getValue()));
+        colorPicker.valueProperty().addListener(this::colorPickerChange);
+        widthSlider.valueProperty().addListener(this::widthSliderChange);
+        heightSlider.valueProperty().addListener(this::heightSliderChange);
         model.getShapes().addListener(this::listChanged);
+        model.getSelectedShapes().addListener(this::listChanged);
 
     }
 
+    private void colorPickerChange(Observable observable) {
+        if (model.getSelectedShapes().size() > 0) {
+            Shape shape = model.getSelectedShapes().get(0);
+            shape.setColor(colorPicker.getValue());
+            drawShapes();
+        }
+
+    }
+
+    private void widthSliderChange(Observable observable) {
+        widthText.setText(String.valueOf((int) widthSlider.getValue()));
+        if(model.getSelectedShapes().size() > 0) {
+            var shape = model.getSelectedShapes().get(0).getShape().getShape();
+            if (shape instanceof Rectangle)
+                shape.reSizeX(widthSlider.getValue());
+            if (shape instanceof Circle)
+                shape.reSizeX(widthSlider.getValue());
+            if (shape instanceof Triangle)
+                shape.reSizeX(widthSlider.getValue());
+            drawShapes();
+        }
+    }
+
+    private void heightSliderChange(Observable observable) {
+        heightText.setText(String.valueOf((int) heightSlider.getValue()));
+        if(model.getSelectedShapes().size() > 0){
+            var shape = model.getSelectedShapes().get(0).getShape().getShape();
+            if (shape instanceof Rectangle)
+                shape.reSizeY(heightSlider.getValue());
+            drawShapes();
+        }
+    }
+
     private void listChanged(Observable observable) {
+        drawShapes();
+    }
+
+    private void drawShapes() {
         var context = canvas.getGraphicsContext2D();
         context.clearRect(0,0, canvas.getWidth(),canvas.getHeight());
         for (Shape s : model.getShapes()) {
@@ -70,34 +123,37 @@ public class CanvasViewController {
     private void arrangeTriangleSliders() {
         widthLabel.setText("Side");
         heightLabel.setText("");
-        widthSlider.setMax(100);
-        heightSlider.setMax(100);
-        widthSlider.setValue(0);
-        heightSlider.setValue(0);
+        widthSlider.setMax(500);
+        heightSlider.setMax(500);
+        widthSlider.setValue(50);
+        heightSlider.setValue(50);
         heightLabel.setDisable(true);
         heightSlider.setDisable(true);
+        heightText.setDisable(true);
     }
 
     private void arrangeCircleSliders() {
         widthLabel.setText("Radius");
         heightLabel.setText("");
-        widthSlider.setMax(50);
-        heightSlider.setMax(50);
-        widthSlider.setValue(0);
-        heightSlider.setValue(0);
+        widthSlider.setMax(250);
+        heightSlider.setMax(250);
+        widthSlider.setValue(25);
+        heightSlider.setValue(25);
         heightLabel.setDisable(true);
         heightSlider.setDisable(true);
+        heightText.setDisable(true);
     }
 
     private void arrangeRectSliders() {
         widthLabel.setText("Width");
         heightLabel.setText("Height");
-        widthSlider.setMax(100);
-        heightSlider.setMax(100);
-        widthSlider.setValue(0);
-        heightSlider.setValue(0);
+        widthSlider.setMax(500);
+        heightSlider.setMax(500);
+        widthSlider.setValue(50);
+        heightSlider.setValue(50);
         heightLabel.setDisable(false);
         heightSlider.setDisable(false);
+        heightText.setDisable(false);
     }
 
     @FXML
@@ -105,21 +161,20 @@ public class CanvasViewController {
         int counter = 0;
         for (int i = 0; i < model.getShapes().size(); i++) {
             Shape shape = model.getShapes().get(i);
-            if(shape.onClick(mouseEvent)) {
+            if(shape.onClick(mouseEvent) && select) {
+                if (shape.isSelected) {
+                    model.removeFromSelectedList();
+                    shape.deSelect();
+                }
                 if (!shape.isSelected) {
                     model.removeFromSelectedList();
                     model.addSelectedList(shape);
                     shape.select();
                 }
-                if (shape.isSelected) {
-                    model.removeFromSelectedList();
-                    shape.deSelect();
-                }
-                shape.draw(context);
             } else
                 counter++;
         }
-        if (counter == model.getShapes().size()) {
+        if (counter == model.getShapes().size() && !select) {
             model.removeFromSelectedList();
             createNewShape(mouseEvent);
         }
@@ -131,11 +186,13 @@ public class CanvasViewController {
         Command undo = () -> model.remove(shape);
         undoCommandStack.push(undo);
         undoShapeStack.push(shape);
+        redoShapeStack.clear();
+        redoCommandStack.clear();
     }
 
     @FXML
     protected void undoStack(){
-        if (undoCommandStack.size() > 0) {
+        if (undoCommandStack.size() > 0 && undoShapeStack.size() > 0) {
             Shape shape = undoShapeStack.pop();
             Command redo = () -> model.addShape(shape);
             redoCommandStack.push(redo);
@@ -173,6 +230,13 @@ public class CanvasViewController {
         redoStack();
     }
 
+    public void onCreateButtonClick(ActionEvent actionEvent) {
+        select = false;
+    }
+
+    public void onSelectButtonClick(ActionEvent actionEvent) {
+        select = true;
+    }
 }
     @FunctionalInterface
 interface Command {

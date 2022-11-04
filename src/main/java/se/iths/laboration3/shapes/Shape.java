@@ -6,8 +6,8 @@ import javafx.scene.paint.Color;
 import java.util.Objects;
 
 public abstract class Shape {
-    private final double x;
-    private final double y;
+    private double x;
+    private double y;
     protected Shape shape;
     private Color color;
     private Color borderColor;
@@ -20,12 +20,14 @@ public abstract class Shape {
 
     public void select() {
         setBorderColor(Color.MAGENTA);
-        isSelected = true;
+        if (!isSelected)
+            isSelected = true;
     }
 
     public void deSelect(){
         setBorderColor(Color.TRANSPARENT);
-        isSelected = false;
+        if (isSelected)
+            isSelected = false;
     }
 
     public void setBorderColor(Color borderColor) {
@@ -43,6 +45,8 @@ public abstract class Shape {
     public double getY() {
         return y;
     }
+
+    public Shape getShape(){return this.shape;}
 
     public Color getColor() {
         return color;
@@ -75,5 +79,7 @@ public abstract class Shape {
 
     public abstract void draw(GraphicsContext context);
 
+    public abstract void reSizeX(double x);
+    public abstract void reSizeY(double y);
 
 }

@@ -34,4 +34,10 @@ public class Circle extends Shape {
         double distance = Math.sqrt((xArea*xArea) + (yArea *yArea));
         return distance <= getRadius();
     }
+
+    public void reSizeX(double radius) {
+        this.radius = radius;
+    }
+    public void reSizeY(double y) {
+    }
 }
