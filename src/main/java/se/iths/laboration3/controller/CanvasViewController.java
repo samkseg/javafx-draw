@@ -108,6 +108,9 @@ public class CanvasViewController {
         for (Shape s : model.getShapes()) {
             s.draw(context);
         }
+        for (Shape s : model.getSelectedShapes()) {
+            s.draw(context);
+        }
     }
 
     private void choiceBoxChanged(Observable observable) {
@@ -163,11 +166,11 @@ public class CanvasViewController {
             Shape shape = model.getShapes().get(i);
             if(shape.onClick(mouseEvent) && select) {
                 if (shape.isSelected) {
-                    model.removeFromSelectedList();
+                    model.removeFromSelectedList(shape);
                     shape.deSelect();
                 }
                 if (!shape.isSelected) {
-                    model.removeFromSelectedList();
+                    model.removeFromSelectedList(shape);
                     model.addSelectedList(shape);
                     shape.select();
                 }
@@ -175,7 +178,7 @@ public class CanvasViewController {
                 counter++;
         }
         if (counter == model.getShapes().size() && !select) {
-            model.removeFromSelectedList();
+            model.getSelectedShapes().clear();
             createNewShape(mouseEvent);
         }
     }
@@ -193,6 +196,9 @@ public class CanvasViewController {
     @FXML
     protected void undoStack(){
         if (undoCommandStack.size() > 0 && undoShapeStack.size() > 0) {
+            for (Shape s : model.getSelectedShapes())
+                s.deSelect();
+            model.getSelectedShapes().clear();
             Shape shape = undoShapeStack.pop();
             Command redo = () -> model.addShape(shape);
             redoCommandStack.push(redo);
@@ -205,6 +211,7 @@ public class CanvasViewController {
     @FXML
     protected void redoStack(){
         if (redoCommandStack.size() > 0 && redoShapeStack.size() > 0){
+            model.getSelectedShapes().clear();
             Shape shape = redoShapeStack.pop();
             model.addShape(shape);
             Command undo = () -> model.remove(shape);

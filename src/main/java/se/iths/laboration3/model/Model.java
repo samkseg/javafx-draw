@@ -11,8 +11,6 @@ import javafx.scene.paint.Color;
 import se.iths.laboration3.shapes.Shape;
 import se.iths.laboration3.shapes.ShapeType;
 
-import java.util.Objects;
-
 public class Model {
     public ObjectProperty<ShapeType> currentShapeType = new SimpleObjectProperty<>(ShapeType.CIRCLE);
     private ObservableList<ObsShape> shapes = FXCollections.observableArrayList(param -> new Observable[]{
@@ -33,23 +31,22 @@ public class Model {
     }
 
     public void addSelectedList(Shape shape) {
-        removeFromSelectedList();
+        removeFromSelectedList(shape);
         var oShape = new ObsShape(shape);
         selectedShapes.add(oShape);
         oShape.select();
     }
 
-    public void removeFromSelectedList(){
-        for (int i = 0; i < getSelectedShapes().size(); i++) {
-            getSelectedShapes().get(i).deSelect();
-        }
-        selectedShapes.clear();
+    public void removeFromSelectedList(Shape shape){
+        var oShape = new ObsShape(shape);
+        for (Shape s : getSelectedShapes())
+            s.deSelect();
+        selectedShapes.remove(oShape);
     }
 
-    public Shape addShape(Shape shape) {
+    public void addShape(Shape shape) {
         var oShape = new ObsShape(shape);
         shapes.add(oShape);
-        return shape;
     }
 
     public void remove(Shape shape){
