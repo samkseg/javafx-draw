@@ -8,6 +8,8 @@ import javafx.collections.ObservableList;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+import java.util.Objects;
+
 public class Model {
     ObjectProperty<ShapeType> currentShapeType = new SimpleObjectProperty<>(ShapeType.CIRCLE);
     ObservableList<ObsShape> shapes = FXCollections.observableArrayList(param -> new Observable[]{param.colorProperty()});
@@ -25,8 +27,15 @@ public class Model {
         shapes.add(oShape);
         return shape;
     }
-    public void remove(){
-        shapes.remove(this);
+
+    public void remove(Shape shape){
+        var oShape = new ObsShape(shape);
+        if (shapes.size() > 0) {
+            shapes.remove(shapes.size() - 1);
+        }
+    }
+    public void removeAll(){
+        shapes.clear();
 
     }
 
@@ -59,6 +68,18 @@ class ObsShape extends Shape {
     @Override
     public void draw(GraphicsContext context) {
         this.shape.draw(context);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ObsShape obsShape)) return false;
+        return Objects.equals(shape, obsShape.shape) && Objects.equals(color, obsShape.color);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(shape, color);
     }
 }
 

@@ -6,16 +6,18 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.iths.laboration3.controller.CanvasViewController">
    <children>
-      <Label layoutX="104.0" layoutY="26.0" prefHeight="17.0" prefWidth="43.0" text="Shape" />
-      <ChoiceBox fx:id="choiceBox" layoutX="50.0" layoutY="48.0" prefWidth="150.0" />
-      <Label layoutX="435.0" layoutY="26.0" text="Color" />
-      <ColorPicker fx:id="colorPicker" layoutX="386.0" layoutY="48.0" />
+      <Label layoutX="48.0" layoutY="17.0" prefHeight="17.0" prefWidth="43.0" text="Shape" />
+      <ChoiceBox fx:id="choiceBox" layoutX="14.0" layoutY="39.0" prefHeight="25.0" prefWidth="111.0" />
+      <Label layoutX="357.0" layoutY="16.0" text="Color" />
+      <ColorPicker fx:id="colorPicker" layoutX="308.0" layoutY="38.0" />
       <Canvas fx:id="canvas" height="307.0" layoutY="92.0" onMouseClicked="#canvasClicked" width="600.0" />
-      <Label layoutX="290.0" layoutY="27.0" text="Size" />
-      <Slider fx:id="widthSlider" layoutX="262.0" layoutY="43.0" prefHeight="14.0" prefWidth="117.0" />
-      <Slider fx:id="heightSlider" layoutX="262.0" layoutY="63.0" prefHeight="14.0" prefWidth="117.0" />
-      <Label fx:id="widthLabel" layoutX="219.0" layoutY="41.0" text="Width" />
-      <Label fx:id="heightLabel" layoutX="218.0" layoutY="61.0" text="Height" />
-      <Button fx:id="clearButton" onAction="#onClearButtonClick" layoutX="527.0" layoutY="49.0" mnemonicParsing="false" text="Clear" />
+      <Label layoutX="211.0" layoutY="14.0" text="Size" />
+      <Slider fx:id="widthSlider" layoutX="183.0" layoutY="30.0" prefHeight="14.0" prefWidth="117.0" />
+      <Slider fx:id="heightSlider" showTickMarks="true" layoutX="183.0" layoutY="50.0" prefHeight="14.0" prefWidth="117.0" />
+      <Label fx:id="widthLabel" layoutX="140.0" layoutY="28.0" text="Width" />
+      <Label fx:id="heightLabel" layoutX="139.0" layoutY="48.0" text="Height" />
+      <Button fx:id="clearButton" layoutX="445.0" layoutY="38.0" mnemonicParsing="false" onAction="#onClearButtonClick" text="Clear" />
+      <Button fx:id="undoButton" layoutX="488.0" layoutY="38.0" mnemonicParsing="false" onAction="#onUndoButtonClick" text="Undo" />
+      <Button fx:id="redoButton" layoutX="534.0" layoutY="38.0" mnemonicParsing="false" onAction="#onRedoButtonClick" text="Redo" />
    </children>
 </AnchorPane>

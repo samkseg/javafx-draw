@@ -4,7 +4,7 @@ import java.util.*;
 
 public class CommandDemo {
 
-    static Deque<Command> undoStack = new ArrayDeque<>(); // eller LinkedList
+    static Deque<Command2> undoStack = new ArrayDeque<>(); // eller LinkedList
 
 
     public static void main(String[] args) {
@@ -16,7 +16,7 @@ public class CommandDemo {
 
         MutableItem message = new MutableItem(1,"Hej");
         items.add(message);
-        Command undo1 = () -> items.remove(message);
+        Command2 undo1 = () -> items.remove(message);
         undoStack.push(undo1);
 
         items.forEach(System.out::println);
@@ -24,7 +24,7 @@ public class CommandDemo {
 
         MutableItem message2 = new MutableItem(2,"Då");
         items.add(message2);
-        Command undo2 = () -> items.remove(message2);
+        Command2 undo2 = () -> items.remove(message2);
         undoStack.push(undo2);
 
         items.forEach(System.out::println);
@@ -33,13 +33,13 @@ public class CommandDemo {
         MutableItem message3 = items.get(1);
         String oldTextValue = message3.getText();
         message3.setText("Welcome");
-        Command undo3 = () -> message3.setText(oldTextValue);
+        Command2 undo3 = () -> message3.setText(oldTextValue);
         undoStack.push(undo3);
 
         items.forEach(System.out::println);
         System.out.println("----------------");
 
-        Command undoToExecute = undoStack.pop();
+        Command2 undoToExecute = undoStack.pop();
         undoToExecute.execute();
 
         items.forEach(System.out::println);
@@ -97,6 +97,6 @@ class MutableItem {
 }
 
 @FunctionalInterface
-interface Command {
+interface Command2 {
     public void execute();
 }
