@@ -7,4 +7,8 @@ module com.example.laboration3 {
     exports se.iths.laboration3;
     exports se.iths.laboration3.controller;
     opens se.iths.laboration3.controller to javafx.fxml;
+    exports se.iths.laboration3.shapes;
+    opens se.iths.laboration3.shapes to javafx.fxml;
+    exports se.iths.laboration3.model;
+    opens se.iths.laboration3.model to javafx.fxml;
 }

@@ -1,4 +1,4 @@
-package se.iths.laboration3;
+package se.iths.laboration3.shapes;
 
 public enum ShapeType {
     RECTANGLE,

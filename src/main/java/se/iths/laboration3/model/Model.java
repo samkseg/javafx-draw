@@ -1,4 +1,4 @@
-package se.iths.laboration3;
+package se.iths.laboration3.model;
 
 import javafx.beans.Observable;
 import javafx.beans.property.ObjectProperty;
@@ -7,6 +7,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import se.iths.laboration3.shapes.Shape;
+import se.iths.laboration3.shapes.ShapeType;
 
 import java.util.Objects;
 

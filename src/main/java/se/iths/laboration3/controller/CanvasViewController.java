@@ -9,9 +9,9 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import se.iths.laboration3.Model;
-import se.iths.laboration3.Shape;
-import se.iths.laboration3.ShapeType;
+import se.iths.laboration3.model.Model;
+import se.iths.laboration3.shapes.Shape;
+import se.iths.laboration3.shapes.ShapeType;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -32,9 +32,9 @@ public class CanvasViewController {
 
     Model model = new Model();
     ObservableList<ShapeType> shapeTypesList = FXCollections.observableArrayList(ShapeType.values());
-    static Deque<Command> undoStack = new ArrayDeque<>();
+    static Deque<Command> undoCommandStack = new ArrayDeque<>();
     static Deque<Shape> undoShapeStack = new ArrayDeque<>();
-    static Deque<Command> redoStack = new ArrayDeque<>();
+    static Deque<Command> redoCommandStack = new ArrayDeque<>();
     static Deque<Shape> redoShapeStack = new ArrayDeque<>();
 
     public void initialize() {
@@ -102,32 +102,36 @@ public class CanvasViewController {
 
     @FXML
     protected void canvasClicked(MouseEvent mouseEvent) {
+        createNewShape(mouseEvent);
+    }
+
+    private void createNewShape(MouseEvent mouseEvent) {
         Shape shape = Shape.createShape(choiceBox.getValue(), mouseEvent.getX(), mouseEvent.getY(), widthSlider.getValue(), heightSlider.getValue(), colorPicker.getValue());
         model.addShape(shape);
         Command undo = () -> model.remove(shape);
-        undoStack.push(undo);
+        undoCommandStack.push(undo);
         undoShapeStack.push(shape);
     }
 
     @FXML
     protected void undoStack(){
-        if (undoStack.size() > 0) {
+        if (undoCommandStack.size() > 0) {
             Shape shape = undoShapeStack.pop();
             Command redo = () -> model.addShape(shape);
-            redoStack.push(redo);
+            redoCommandStack.push(redo);
             redoShapeStack.push(shape);
-            Command undoToExecute = undoStack.pop();
+            Command undoToExecute = undoCommandStack.pop();
             undoToExecute.execute();
         }
 
     }
     @FXML
     protected void redoStack(){
-        if (redoStack.size() > 0 && redoShapeStack.size() > 0){
+        if (redoCommandStack.size() > 0 && redoShapeStack.size() > 0){
             Shape shape = redoShapeStack.pop();
             model.addShape(shape);
             Command undo = () -> model.remove(shape);
-            undoStack.push(undo);
+            undoCommandStack.push(undo);
             undoShapeStack.push(shape);
         }
     }
@@ -136,8 +140,8 @@ public class CanvasViewController {
         context.clearRect(0,0, canvas.getWidth(),canvas.getHeight());
         redoShapeStack.clear();
         undoShapeStack.clear();
-        undoStack.clear();
-        redoStack.clear();
+        undoCommandStack.clear();
+        redoCommandStack.clear();
         model.removeAll();
     }
     @FXML
