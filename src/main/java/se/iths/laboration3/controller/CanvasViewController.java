@@ -102,7 +102,27 @@ public class CanvasViewController {
 
     @FXML
     protected void canvasClicked(MouseEvent mouseEvent) {
-        createNewShape(mouseEvent);
+        int counter = 0;
+        for (int i = 0; i < model.getShapes().size(); i++) {
+            Shape shape = model.getShapes().get(i);
+            if(shape.onClick(mouseEvent)) {
+                if (!shape.isSelected) {
+                    model.removeFromSelectedList();
+                    model.addSelectedList(shape);
+                    shape.select();
+                }
+                if (shape.isSelected) {
+                    model.removeFromSelectedList();
+                    shape.deSelect();
+                }
+                shape.draw(context);
+            } else
+                counter++;
+        }
+        if (counter == model.getShapes().size()) {
+            model.removeFromSelectedList();
+            createNewShape(mouseEvent);
+        }
     }
 
     private void createNewShape(MouseEvent mouseEvent) {

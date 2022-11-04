@@ -1,5 +1,6 @@
 package se.iths.laboration3.shapes;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
 import java.util.Objects;
@@ -8,12 +9,32 @@ public abstract class Shape {
     private final double x;
     private final double y;
     protected Shape shape;
-    protected Color color;
+    private Color color;
+    private Color borderColor;
+    public boolean isSelected = false;
 
     public Shape(double x, double y) {
         this.x = x;
         this.y = y;
     }
+
+    public void select() {
+        setBorderColor(Color.MAGENTA);
+        isSelected = true;
+    }
+
+    public void deSelect(){
+        setBorderColor(Color.TRANSPARENT);
+        isSelected = false;
+    }
+
+    public void setBorderColor(Color borderColor) {
+        this.borderColor = borderColor;
+    }
+    public Color getBorderColor() {
+        return borderColor;
+    }
+    public abstract boolean onClick(MouseEvent mouseEvent);
 
     public double getX() {
         return x;
@@ -53,4 +74,6 @@ public abstract class Shape {
     }
 
     public abstract void draw(GraphicsContext context);
+
+
 }
