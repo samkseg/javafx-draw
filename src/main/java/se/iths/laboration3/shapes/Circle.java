@@ -7,24 +7,24 @@ import javafx.scene.paint.Color;
 import java.util.Objects;
 
 public class Circle extends Shape {
-    private double radius;
-    public Circle(double x, double y, Color color, double radius) {
+    private double diameter;
+    public Circle(double x, double y, Color color, double diameter) {
         super(x,y);
         super.setColor(color);
         super.setBorderColor(Color.TRANSPARENT);
-        this.radius = radius;
+        this.diameter = diameter;
 
     }
 
     private double getRadius() {
-        return radius;
+        return diameter/2;
     }
     @Override
     public void draw(GraphicsContext context) {
         context.setFill(getBorderColor());
-        context.fillOval(getX()-radius-2, getY()-radius-2, radius * 2+4, radius * 2+4);;
+        context.fillOval(getX()-getRadius()-2, getY()-getRadius()-2, getRadius() * 2+4, getRadius() * 2+4);;
         context.setFill(getColor());
-        context.fillOval(getX()-radius, getY()-radius, radius * 2, radius * 2);
+        context.fillOval(getX()-getRadius(), getY()-getRadius(), getRadius() * 2, getRadius() * 2);
     }
 
     @Override
@@ -35,8 +35,13 @@ public class Circle extends Shape {
         return distance <= getRadius();
     }
 
-    public void reSizeX(double radius) {
-        this.radius = radius;
+    @Override
+    public ShapeType getShapeType() {
+        return ShapeType.CIRCLE;
+    }
+
+    public void reSizeX(double diameter) {
+        this.diameter = diameter;
     }
     public void reSizeY(double y) {
     }

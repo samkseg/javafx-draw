@@ -9,7 +9,7 @@
    <children>
       <Label layoutX="203.0" layoutY="17.0" prefHeight="17.0" prefWidth="43.0" text="Shape" />
       <ChoiceBox fx:id="choiceBox" layoutX="169.0" layoutY="39.0" prefHeight="25.0" prefWidth="111.0" />
-      <Label layoutX="512.0" layoutY="16.0" text="Color" />
+      <Label layoutX="477.0" layoutY="16.0" text="Color" />
       <ColorPicker fx:id="colorPicker" layoutX="463.0" layoutY="38.0" />
       <Canvas fx:id="canvas" height="520.0" layoutY="80.0" onMouseClicked="#canvasClicked" width="800.0" />
       <Label layoutX="366.0" layoutY="14.0" text="Size" />
@@ -32,5 +32,6 @@
       </TextField>
       <Button fx:id="createButton" layoutX="53.0" layoutY="39.0" mnemonicParsing="false" onAction="#onCreateButtonClick" text="New" />
       <Button fx:id="selectButton" layoutX="93.0" layoutY="39.0" mnemonicParsing="false" onAction="#onSelectButtonClick" text="Select" />
+      <Button fx:id="applyColorButton" layoutX="511.0" layoutY="12.0" mnemonicParsing="false" onAction="#onApplyColorButtonClick" text="Apply" />
    </children>
 </AnchorPane>

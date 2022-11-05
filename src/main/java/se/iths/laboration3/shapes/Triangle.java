@@ -40,6 +40,11 @@ public class Triangle extends Shape {
         return false;
     }
 
+    @Override
+    public ShapeType getShapeType() {
+        return ShapeType.TRIANGLE;
+    }
+
     public void reSizeX (double size) {
         this.size = size;
     }

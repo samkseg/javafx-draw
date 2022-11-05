@@ -39,6 +39,11 @@ public class Rectangle extends Shape {
                 y <= yArea;
     }
 
+    @Override
+    public ShapeType getShapeType() {
+        return ShapeType.RECTANGLE;
+    }
+
     public void reSizeX(double width) {
         this.width = width;
     }

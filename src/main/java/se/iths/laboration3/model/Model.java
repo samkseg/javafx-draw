@@ -8,8 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import se.iths.laboration3.shapes.Shape;
-import se.iths.laboration3.shapes.ShapeType;
+import se.iths.laboration3.shapes.*;
 
 public class Model {
     public ObjectProperty<ShapeType> currentShapeType = new SimpleObjectProperty<>(ShapeType.CIRCLE);
@@ -91,6 +90,14 @@ class ObsShape extends Shape {
 
     public Shape getShape() {
         return this.shape;
+    }
+    @Override
+    public ShapeType getShapeType(){
+        Shape shape = this.shape.getShape();
+        if (shape instanceof Circle) return ShapeType.CIRCLE;
+        if (shape instanceof Rectangle) return ShapeType.RECTANGLE;
+        if (shape instanceof Triangle) return ShapeType.TRIANGLE;
+        return ShapeType.RECTANGLE;
     }
 
     @Override

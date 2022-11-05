@@ -47,6 +47,11 @@ public abstract class Shape {
     }
 
     public Shape getShape(){return this.shape;}
+    public void setShapeType(Shape shape){
+        this.shape = shape;
+    }
+
+    public abstract ShapeType getShapeType();
 
     public Color getColor() {
         return color;
