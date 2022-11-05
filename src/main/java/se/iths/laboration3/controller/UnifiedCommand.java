@@ -10,12 +10,16 @@ public class UnifiedCommand {
     private Shape shape;
 
     private Color color;
+    private double width;
+    private double height;
 
-    public UnifiedCommand(CommandType commandType, Command command, Shape shape, Color color) {
+    public UnifiedCommand(CommandType commandType, Command command, Shape shape, Color color, double width, double height) {
         this.commandType = commandType;
         this.command = command;
         this.shape = shape;
         this.color = color;
+        this.width = width;
+        this.height = height;
     }
 
     public CommandType getCommandType() {
@@ -46,5 +50,21 @@ public class UnifiedCommand {
     }
     public void setColor(Color color) {
         this.color = color;
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
     }
 }

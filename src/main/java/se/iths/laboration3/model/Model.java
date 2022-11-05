@@ -128,6 +128,16 @@ class ObsShape extends Shape {
     }
 
     @Override
+    public double getXSize() {
+        return this.shape.getXSize();
+    }
+
+    @Override
+    public double getYSize() {
+        return this.shape.getYSize();
+    }
+
+    @Override
     public void reSizeX(double x) {
         this.shape.reSizeX(x);
     }

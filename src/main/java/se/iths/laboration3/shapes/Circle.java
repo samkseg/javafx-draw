@@ -4,8 +4,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
-import java.util.Objects;
-
 public class Circle extends Shape {
     private double diameter;
     public Circle(double x, double y, Color color, double diameter) {
@@ -15,6 +13,7 @@ public class Circle extends Shape {
         this.diameter = diameter;
 
     }
+
 
     private double getRadius() {
         return diameter/2;
@@ -39,7 +38,8 @@ public class Circle extends Shape {
     public ShapeType getShapeType() {
         return ShapeType.CIRCLE;
     }
-
+    public double getXSize(){return diameter;}
+    public double getYSize(){return diameter;}
     public void reSizeX(double diameter) {
         this.diameter = diameter;
     }

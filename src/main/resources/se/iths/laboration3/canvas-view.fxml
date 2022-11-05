@@ -12,8 +12,8 @@
       <Label layoutX="477.0" layoutY="16.0" text="Color" />
       <ColorPicker fx:id="colorPicker" layoutX="463.0" layoutY="38.0" />
       <Canvas fx:id="canvas" height="520.0" layoutY="80.0" onMouseClicked="#canvasClicked" width="800.0" />
-      <Label layoutX="366.0" layoutY="14.0" text="Size" />
-      <Slider fx:id="widthSlider" layoutX="338.0" layoutY="30.0" prefHeight="14.0" prefWidth="83.0" />
+      <Label layoutX="338.0" layoutY="14.0" text="Size" />
+      <Slider fx:id="widthSlider" layoutX="338.0" layoutY="35.0" prefHeight="14.0" prefWidth="83.0" />
       <Slider fx:id="heightSlider" layoutX="338.0" layoutY="50.0" prefHeight="24.0" prefWidth="83.0" showTickMarks="true" />
       <Label fx:id="widthLabel" layoutX="295.0" layoutY="28.0" text="Width" />
       <Label fx:id="heightLabel" layoutX="294.0" layoutY="48.0" text="Height" />
@@ -32,6 +32,7 @@
       </TextField>
       <Button fx:id="createButton" layoutX="53.0" layoutY="39.0" mnemonicParsing="false" onAction="#onCreateButtonClick" text="New" />
       <Button fx:id="selectButton" layoutX="93.0" layoutY="39.0" mnemonicParsing="false" onAction="#onSelectButtonClick" text="Select" />
-      <Button fx:id="applyColorButton" layoutX="511.0" layoutY="12.0" mnemonicParsing="false" onAction="#onApplyColorButtonClick" text="Apply" />
+      <Button fx:id="applyColorButton" layoutX="511.0" layoutY="9.0" mnemonicParsing="false" onAction="#onApplyColorButtonClick" text="Apply" />
+      <Button fx:id="applySizeButton" layoutX="367.0" layoutY="10.0" mnemonicParsing="false" onAction="#onApplySizeButtonClick" text="Apply" />
    </children>
 </AnchorPane>

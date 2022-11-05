@@ -4,8 +4,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
-import java.util.Objects;
-
 
 public class Rectangle extends Shape {
     private double height;
@@ -26,6 +24,9 @@ public class Rectangle extends Shape {
         context.setFill(getColor());
         context.fillRect(getX()-(width/2),getY()-(height/2),width,height);
     }
+
+
+
     @Override
     public boolean onClick(MouseEvent mouseEvent){
         double x = mouseEvent.getX();
@@ -43,7 +44,15 @@ public class Rectangle extends Shape {
     public ShapeType getShapeType() {
         return ShapeType.RECTANGLE;
     }
+    @Override
+    public double getXSize() {
+        return width;
+    }
 
+    @Override
+    public double getYSize() {
+        return height;
+    }
     public void reSizeX(double width) {
         this.width = width;
     }

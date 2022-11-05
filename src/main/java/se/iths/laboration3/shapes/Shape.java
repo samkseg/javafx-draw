@@ -84,6 +84,8 @@ public abstract class Shape {
 
     public abstract void draw(GraphicsContext context);
 
+    public abstract double getXSize();
+    public abstract double getYSize();
     public abstract void reSizeX(double x);
     public abstract void reSizeY(double y);
 

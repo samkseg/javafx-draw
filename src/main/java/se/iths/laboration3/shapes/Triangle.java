@@ -3,9 +3,6 @@ package se.iths.laboration3.shapes;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Polygon;
-
-import java.util.Objects;
 
 public class Triangle extends Shape {
     double size;
@@ -44,7 +41,8 @@ public class Triangle extends Shape {
     public ShapeType getShapeType() {
         return ShapeType.TRIANGLE;
     }
-
+    public double getXSize(){return size;}
+    public double getYSize(){return size;}
     public void reSizeX (double size) {
         this.size = size;
     }
