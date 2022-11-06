@@ -38,8 +38,8 @@ public class CanvasViewController {
     Model model = new Model();
     private boolean select;
     ObservableList<ShapeType> shapeTypesList = FXCollections.observableArrayList(ShapeType.values());
-    static Deque<UnifiedCommand> undoCommandStack = new ArrayDeque<>();
-    static Deque<UnifiedCommand> redoCommandStack = new ArrayDeque<>();
+    protected static Deque<UnifiedCommand> undoCommandStack = new ArrayDeque<>();
+    protected static Deque<UnifiedCommand> redoCommandStack = new ArrayDeque<>();
     public void initialize() {
         context = canvas.getGraphicsContext2D();
         choiceBox.setItems(shapeTypesList);
@@ -136,7 +136,7 @@ public class CanvasViewController {
         counter = searchSelection(mouseEvent, counter);
         if (counter == model.getShapes().size() && !select) {
             model.getSelectedShapes().clear();
-            createNewShape(mouseEvent);
+            createNewShape(mouseEvent.getX(),mouseEvent.getY());
         }
     }
     private int searchSelection(MouseEvent mouseEvent, int counter) {
@@ -160,10 +160,10 @@ public class CanvasViewController {
         }
         return counter;
     }
-    private void createNewShape(MouseEvent mouseEvent) {
+    protected void createNewShape(double x, double y) {
         clearSelection();
         Shape shape = Shape.createShape(choiceBox.getValue(),
-                mouseEvent.getX(), mouseEvent.getY(),
+                x, y,
                 widthSlider.getValue(), heightSlider.getValue(),
                 colorPicker.getValue());
         model.addShape(shape);
@@ -312,7 +312,7 @@ public class CanvasViewController {
             double oldWidth = shape.getXSize();
             double oldHeight = shape.getYSize();
             shape.reSizeX(Double.parseDouble(widthText.getText()));
-            if (shape.getShape() instanceof Rectangle) {
+            if (shape.getShapeType() == ShapeType.RECTANGLE) {
                 shape.reSizeY(Double.parseDouble(heightText.getText()));
             }
 
