@@ -35,7 +35,7 @@ public class Square extends Shape {
     }
     @Override
     public ShapeType getShapeType() {
-        return ShapeType.RECTANGLE;
+        return ShapeType.SQUARE;
     }
     @Override
     public double getXSize() {
@@ -49,7 +49,5 @@ public class Square extends Shape {
         this.width = width;
         this.height = width;
     }
-    public void reSizeY(double height) {
-        this.height = height;
-    }
+    public void reSizeY(double height) {}
 }

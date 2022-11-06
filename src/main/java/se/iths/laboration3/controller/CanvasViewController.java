@@ -35,9 +35,9 @@ public class CanvasViewController {
     public Button redoButton;
     public Button applyColorButton;
     public Button applySizeButton;
-    Model model = new Model();
-    private boolean select;
-    ObservableList<ShapeType> shapeTypesList = FXCollections.observableArrayList(ShapeType.values());
+    private Model model = new Model();
+    private boolean selectMode;
+    private ObservableList<ShapeType> shapeTypesList = FXCollections.observableArrayList(ShapeType.values());
     protected static Deque<UnifiedCommand> undoCommandStack = new ArrayDeque<>();
     protected static Deque<UnifiedCommand> redoCommandStack = new ArrayDeque<>();
     public void initialize() {
@@ -133,33 +133,41 @@ public class CanvasViewController {
     @FXML
     protected void canvasClicked(MouseEvent mouseEvent) {
         int counter = 0;
-        counter = searchSelection(mouseEvent, counter);
-        if (counter == model.getShapes().size() && !select) {
+        counter = findSelection(mouseEvent, counter);
+        if (counter == model.getShapes().size() && !selectMode) {
             model.getSelectedShapes().clear();
             createNewShape(mouseEvent.getX(),mouseEvent.getY());
         }
     }
-    private int searchSelection(MouseEvent mouseEvent, int counter) {
+    private int findSelection(MouseEvent mouseEvent, int counter) {
         for (Shape s: model.getShapes()) {
-            if (s.onClick(mouseEvent) && select) {
-                if (s.isSelected) {
-                    choiceBox.setDisable(false);
-                    s.deSelect();
-                    model.removeFromSelectedList();
-                }
-                if (!s.isSelected) {
-                    choiceBox.getSelectionModel().select(s.getShape().getShapeType());
-                    choiceBox.setDisable(true);
-                    s.select();
-                    model.removeFromSelectedList();
-                    model.addSelectedList(s);
-                    colorPicker.setValue(s.getColor());
-                }
+            if (s.onClick(mouseEvent) && selectMode) {
+                if (s.isSelected)
+                    deSelectShape(s);
+                if (!s.isSelected)
+                    selectShape(s);
             } else
                 counter++;
         }
         return counter;
     }
+
+    private void deSelectShape(Shape s) {
+        choiceBox.setDisable(false);
+        model.removeFromSelectedList();
+        s.isSelected = false;
+    }
+
+    private void selectShape(Shape s) {
+        choiceBox.getSelectionModel().select(s.getShape().getShapeType());
+        widthSlider.setValue(s.getShape().getXSize());
+        heightSlider.setValue(s.getShape().getYSize());
+        choiceBox.setDisable(true);
+        colorPicker.setValue(s.getColor());
+        model.addSelectedList(s);
+        s.isSelected = true;
+    }
+
     protected void createNewShape(double x, double y) {
         clearSelection();
         Shape shape = Shape.createShape(choiceBox.getValue(),
@@ -168,7 +176,6 @@ public class CanvasViewController {
                 colorPicker.getValue());
         model.addShape(shape);
         model.addSelectedList(shape);
-        shape.select();
         shape.draw(context);
 
         Command undo = () -> {
@@ -184,7 +191,7 @@ public class CanvasViewController {
         redoCommandStack.clear();
     }
     private void undoStack() {
-        if (undoCommandStack.size() > 0) {
+        if (!undoCommandStack.isEmpty()) {
             clearSelection();
 
             UnifiedCommand unifiedCommand = undoCommandStack.pop();
@@ -202,7 +209,6 @@ public class CanvasViewController {
             if (commandType == CommandType.SHAPE)
                 redo = () -> {
                     clearSelection();
-                    shape.select();
                     model.addSelectedList(shape);
                     model.addShape(shape);
                     drawShapes();
@@ -214,14 +220,12 @@ public class CanvasViewController {
                     shape.setColor(colorPicker.getValue());
                     clearSelection();
                     model.addSelectedList(shape);
-                    shape.select();
                     drawShapes();
                 };
             if (commandType == CommandType.RESIZE)
                 redo = () -> {
                     clearSelection();
                     model.addSelectedList(shape);
-                    shape.select();
                     shape.reSizeX(oldWidth);
                     shape.reSizeY(oldHeight);
                     drawShapes();
@@ -236,7 +240,7 @@ public class CanvasViewController {
         }
     }
     private void redoStack() {
-        if (redoCommandStack.size() > 0) {
+        if (!redoCommandStack.isEmpty()) {
             clearSelection();
 
             UnifiedCommand unifiedCommand = redoCommandStack.pop();
@@ -263,14 +267,12 @@ public class CanvasViewController {
                     shape.setColor(colorPicker.getValue());
                     clearSelection();
                     model.addSelectedList(shape);
-                    shape.select();
                     drawShapes();
                 };
-            if (commandType == commandType.RESIZE)
+            if (commandType == CommandType.RESIZE)
                 undo = () -> {
                     clearSelection();
                     model.addSelectedList(shape);
-                    shape.select();
                     shape.reSizeX(newWidth);
                     shape.reSizeY(newHeight);
                     drawShapes();
@@ -285,7 +287,7 @@ public class CanvasViewController {
         }
     }
     private void applyColor() {
-        if (model.getSelectedShapes().size() > 0) {
+        if (!model.getSelectedShapes().isEmpty()) {
             Shape shape = model.getSelectedShapes().get(0);
             Color color = shape.getColor();
             Color newColor = colorPicker.getValue();
@@ -294,7 +296,7 @@ public class CanvasViewController {
             Command undo = () -> {
                 shape.setColor(color);
                 clearSelection();
-                shape.select();
+                model.addSelectedList(shape);
                 drawShapes();
             };
 
@@ -307,7 +309,7 @@ public class CanvasViewController {
         }
     }
     private void applyReSize() {
-        if (model.getSelectedShapes().size() > 0){
+        if (!model.getSelectedShapes().isEmpty()){
             Shape shape = model.getSelectedShapes().get(0);
             double oldWidth = shape.getXSize();
             double oldHeight = shape.getYSize();
@@ -318,7 +320,7 @@ public class CanvasViewController {
 
             Command undo = () -> {
                 clearSelection();
-                shape.select();
+                model.addSelectedList(shape);
                 shape.reSizeX(oldWidth);
                 shape.reSizeY(oldHeight);
                 drawShapes();
@@ -356,13 +358,13 @@ public class CanvasViewController {
     @FXML
     protected void onCreateButtonClick(ActionEvent actionEvent) {
         clearSelection();
-        select = false;
+        selectMode = false;
         choiceBox.setDisable(false);
     }
     @FXML
     protected void onSelectButtonClick(ActionEvent actionEvent) {
         choiceBox.setDisable(true);
-        select = true;
+        selectMode = true;
     }
     @FXML
     protected void onApplyColorButtonClick(ActionEvent actionEvent) {

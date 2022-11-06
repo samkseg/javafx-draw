@@ -11,20 +11,18 @@ public abstract class Shape {
     protected Shape shape;
     private Color color;
     private Color borderColor;
-    public boolean isSelected = false;
+    public boolean isSelected;
     public Shape(double x, double y) {
         this.x = x;
         this.y = y;
     }
     public void select() {
         setBorderColor(Color.MAGENTA);
-        if (!isSelected)
-            isSelected = true;
+        isSelected = true;
     }
     public void deSelect(){
         setBorderColor(Color.TRANSPARENT);
-        if (isSelected)
-            isSelected = false;
+        isSelected = false;
     }
     public void setBorderColor(Color borderColor) {
         this.borderColor = borderColor;
