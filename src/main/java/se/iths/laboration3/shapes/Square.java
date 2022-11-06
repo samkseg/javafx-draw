@@ -50,4 +50,9 @@ public class Square extends Shape {
         this.height = width;
     }
     public void reSizeY(double height) {}
+    @Override
+    public String toStringSVG() {
+        String color= "#"+getColor().toString().substring(2,10);
+        return "<rect x=\"" + getX() + "\" y=\"" + getY() + "\" width=\"" + width + "\" height=\"" + height + "\" fill=\"" + color + "\" />";
+    }
 }

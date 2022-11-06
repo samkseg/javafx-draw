@@ -77,4 +77,8 @@ public class ObsShape extends Shape {
     public void reSizeY(double y) {
         this.shape.reSizeY(y);
     }
+    @Override
+    public String toStringSVG() {
+        return shape.toStringSVG();
+    }
 }

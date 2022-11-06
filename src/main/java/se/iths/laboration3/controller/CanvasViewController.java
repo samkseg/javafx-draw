@@ -3,16 +3,22 @@ package se.iths.laboration3.controller;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import se.iths.laboration3.SVG;
 import se.iths.laboration3.model.Model;
 import se.iths.laboration3.shapes.*;
 
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
@@ -155,13 +161,11 @@ public class CanvasViewController {
         }
         return counter;
     }
-
     private void deSelectShape(Shape s) {
         choiceBox.setDisable(false);
         model.removeFromSelectedList();
         s.isSelected = false;
     }
-
     private void selectShape(Shape s) {
         choiceBox.getSelectionModel().select(s.getShape().getShapeType());
         widthSlider.setValue(s.getShape().getXSize());
@@ -171,7 +175,6 @@ public class CanvasViewController {
         model.addSelectedList(s);
         s.isSelected = true;
     }
-
     protected void createNewShape(double x, double y) {
         clearSelection();
         Shape shape = Shape.createShape(choiceBox.getValue(),
@@ -336,6 +339,15 @@ public class CanvasViewController {
             drawShapes();
         }
     }
+    private void saveSVG() {
+        SVG.save(model);
+        try {
+            Image snapShot = canvas.snapshot(null,null);
+            ImageIO.write(SwingFXUtils.fromFXImage(snapShot, null), "png", new File("image.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     @FXML
     protected void clearSelection() {
         for (Shape s : model.getShapes())
@@ -377,6 +389,10 @@ public class CanvasViewController {
     @FXML
     protected void onApplySizeButtonClick(ActionEvent actionEvent) {
         applyReSize();
+    }
+    @FXML
+    protected void onSaveButtonClick(ActionEvent actionEvent) {
+        saveSVG();
     }
 }
 @FunctionalInterface

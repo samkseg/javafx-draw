@@ -52,4 +52,9 @@ public class Rectangle extends Shape {
     public void reSizeY(double height) {
         this.height = height;
     }
+    @Override
+    public String toStringSVG() {
+        String color= "#"+getColor().toString().substring(2,10);
+        return "<rect x=\"" + getX() + "\" y=\"" + getY() + "\" width=\"" + width + "\" height=\"" + height + "\" fill=\"" + color + "\" />";
+    }
 }

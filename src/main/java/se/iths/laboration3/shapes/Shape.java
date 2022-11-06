@@ -70,4 +70,5 @@ public abstract class Shape {
     public abstract void reSizeX(double x);
     public abstract void reSizeY(double y);
 
+    public abstract String toStringSVG();
 }

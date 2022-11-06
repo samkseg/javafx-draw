@@ -55,4 +55,8 @@ public class Triangle extends Shape {
     }
     public void reSizeY(double y) {
     }
+    @Override
+    public String toStringSVG() { //Todo
+        return "";
+    }
 }

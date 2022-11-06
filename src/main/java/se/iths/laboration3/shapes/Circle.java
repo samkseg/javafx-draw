@@ -41,4 +41,9 @@ public class Circle extends Shape {
     }
     public void reSizeY(double y) {
     }
+    @Override
+    public String toStringSVG() {
+        String color = "#" + getColor().toString().substring(2, 10);
+        return "<circle cx=\"" + getX() + "\" cy=\"" + getY() + "\" r=\"" + getRadius() / 2 + "\" fill=\"" + color + "\" />";
+    }
 }

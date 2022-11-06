@@ -34,5 +34,6 @@
       <Button fx:id="selectButton" layoutX="109.0" layoutY="31.0" mnemonicParsing="false" onAction="#onSelectButtonClick" text="Select" />
       <Button fx:id="applyColorButton" layoutX="524.0" layoutY="2.0" mnemonicParsing="false" onAction="#onApplyColorButtonClick" text="Apply" />
       <Button fx:id="applySizeButton" layoutX="380.0" layoutY="2.0" mnemonicParsing="false" onAction="#onApplySizeButtonClick" text="Apply" />
+      <Button fx:id="saveButton" layoutX="614.0" layoutY="2.0" mnemonicParsing="false" onAction="#onSaveButtonClick" text="Save" />
    </children>
 </AnchorPane>

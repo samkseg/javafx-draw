@@ -1,8 +1,9 @@
-module com.example.laboration3 {
+module se.iths.laboration3 {
     requires javafx.controls;
     requires javafx.fxml;
-            
-                            
+    requires javafx.swing;
+
+
     opens se.iths.laboration3 to javafx.fxml;
     exports se.iths.laboration3;
     exports se.iths.laboration3.controller;
