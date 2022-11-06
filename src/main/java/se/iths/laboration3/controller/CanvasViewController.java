@@ -41,10 +41,12 @@ public class CanvasViewController {
     protected static Deque<UnifiedCommand> undoCommandStack = new ArrayDeque<>();
     protected static Deque<UnifiedCommand> redoCommandStack = new ArrayDeque<>();
     public void initialize() {
+
         context = canvas.getGraphicsContext2D();
+
         choiceBox.setItems(shapeTypesList);
         choiceBox.setValue(ShapeType.RECTANGLE);
-        choiceBox.getSelectionModel().selectedItemProperty().addListener(this::choiceBoxChanged);
+
         colorPicker.setValue(Color.WHITE);
         widthSlider.setMin(1);
         heightSlider.setMin(1);
@@ -56,11 +58,13 @@ public class CanvasViewController {
         heightText.setText("50");
         widthText.setText(String.valueOf(widthSlider.getValue()));
         heightText.setText(String.valueOf(heightSlider.getValue()));
+
+        choiceBox.getSelectionModel().selectedItemProperty().addListener(this::choiceBoxChanged);
         widthText.styleProperty().addListener(this::widthTextChange);
         heightText.styleProperty().addListener(this::heightTextChange);
-        colorPicker.valueProperty().addListener(this::colorPickerChange);
         widthSlider.valueProperty().addListener(this::widthSliderChange);
         heightSlider.valueProperty().addListener(this::heightSliderChange);
+        colorPicker.valueProperty().addListener(this::colorPickerChange);
         model.getShapes().addListener(this::listChanged);
         model.getSelectedShapes().addListener(this::listChanged);
     }
