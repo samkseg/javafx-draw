@@ -34,13 +34,6 @@ public class CanvasViewController {
     public Label heightLabel;
     public TextField widthText;
     public TextField heightText;
-    public Button createButton;
-    public Button selectButton;
-    public Button clearButton;
-    public Button undoButton;
-    public Button redoButton;
-    public Button applyColorButton;
-    public Button applySizeButton;
     private Model model = new Model();
     private boolean selectMode;
     private ObservableList<ShapeType> shapeTypesList = FXCollections.observableArrayList(ShapeType.values());
