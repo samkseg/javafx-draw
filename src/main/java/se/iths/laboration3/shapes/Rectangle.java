@@ -9,14 +9,12 @@ public class Rectangle extends Shape {
     private double height;
     private double width;
     public Rectangle(double x, double y, double width, double height, Color color) {
-
         super(x,y);
         super.setColor(color);
         super.setBorderColor(Color.TRANSPARENT);
         this.width = width;
         this.height = height;
     }
-
     @Override
     public void draw(GraphicsContext context) {
         context.setFill(getBorderColor());
@@ -24,9 +22,6 @@ public class Rectangle extends Shape {
         context.setFill(getColor());
         context.fillRect(getX()-(width/2),getY()-(height/2),width,height);
     }
-
-
-
     @Override
     public boolean onClick(MouseEvent mouseEvent){
         double x = mouseEvent.getX();
@@ -39,7 +34,6 @@ public class Rectangle extends Shape {
                 y >= getY() - (height/2) &&
                 y <= yArea;
     }
-
     @Override
     public ShapeType getShapeType() {
         return ShapeType.RECTANGLE;
@@ -48,7 +42,6 @@ public class Rectangle extends Shape {
     public double getXSize() {
         return width;
     }
-
     @Override
     public double getYSize() {
         return height;

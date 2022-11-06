@@ -13,8 +13,6 @@ public class Circle extends Shape {
         this.diameter = diameter;
 
     }
-
-
     private double getRadius() {
         return diameter/2;
     }
@@ -25,7 +23,6 @@ public class Circle extends Shape {
         context.setFill(getColor());
         context.fillOval(getX()-getRadius(), getY()-getRadius(), getRadius() * 2, getRadius() * 2);
     }
-
     @Override
     public boolean onClick(MouseEvent mouseEvent){
         double xArea = mouseEvent.getX() - getX();
@@ -33,7 +30,6 @@ public class Circle extends Shape {
         double distance = Math.sqrt((xArea*xArea) + (yArea *yArea));
         return distance <= getRadius();
     }
-
     @Override
     public ShapeType getShapeType() {
         return ShapeType.CIRCLE;

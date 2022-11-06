@@ -33,15 +33,11 @@ public class CanvasViewController {
     public Button clearButton;
     public Button undoButton;
     public Button redoButton;
-
     Model model = new Model();
-
     private boolean select;
-
     ObservableList<ShapeType> shapeTypesList = FXCollections.observableArrayList(ShapeType.values());
     static Deque<UnifiedCommand> undoCommandStack = new ArrayDeque<>();
     static Deque<UnifiedCommand> redoCommandStack = new ArrayDeque<>();
-
     public void initialize() {
         context = canvas.getGraphicsContext2D();
         choiceBox.setItems(shapeTypesList);
@@ -63,21 +59,15 @@ public class CanvasViewController {
         heightSlider.valueProperty().addListener(this::heightSliderChange);
         model.getShapes().addListener(this::listChanged);
         model.getSelectedShapes().addListener(this::listChanged);
-
     }
-
     private void widthTextChange(Observable observable) {
         widthSlider.setValue(Integer.parseInt(widthText.getText()));
     }
-
     private void heightTextChange(Observable observable) {
         heightSlider.setValue(Integer.parseInt(heightText.getText()));
     }
-
     private void colorPickerChange(Observable observable) {
     }
-
-
     private void widthSliderChange(Observable observable) {
         widthText.setText(String.valueOf((int) widthSlider.getValue()));
         /*if (model.getSelectedShapes().size() > 0) {
@@ -86,7 +76,6 @@ public class CanvasViewController {
             drawShapes();
         }*/
     }
-
     private void heightSliderChange(Observable observable) {
         heightText.setText(String.valueOf((int) heightSlider.getValue()));
         /*if (model.getSelectedShapes().size() > 0) {
@@ -96,11 +85,9 @@ public class CanvasViewController {
             drawShapes();
         }*/
     }
-
     private void listChanged(Observable observable) {
         drawShapes();
     }
-
     private void drawShapes() {
         var context = canvas.getGraphicsContext2D();
         context.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -111,9 +98,7 @@ public class CanvasViewController {
             s.draw(context);
         }
     }
-
     private void choiceBoxChanged(Observable observable) {
-
         ShapeType shapeChoice = choiceBox.getSelectionModel().getSelectedItem();
         switch (shapeChoice) {
             case RECTANGLE -> arrangeRectSliders();
@@ -121,7 +106,6 @@ public class CanvasViewController {
             case TRIANGLE -> arrangeTriangleSliders();
         }
     }
-
     private void arrangeTriangleSliders() {
         widthLabel.setText("Side");
         heightLabel.setText("");
@@ -129,7 +113,6 @@ public class CanvasViewController {
         heightSlider.setDisable(true);
         heightText.setDisable(true);
     }
-
     private void arrangeCircleSliders() {
         widthLabel.setText("Radius");
         heightLabel.setText("");
@@ -137,7 +120,6 @@ public class CanvasViewController {
         heightSlider.setDisable(true);
         heightText.setDisable(true);
     }
-
     private void arrangeRectSliders() {
         widthLabel.setText("Width");
         heightLabel.setText("Height");
@@ -145,7 +127,6 @@ public class CanvasViewController {
         heightSlider.setDisable(false);
         heightText.setDisable(false);
     }
-
     @FXML
     protected void canvasClicked(MouseEvent mouseEvent) {
         int counter = 0;
@@ -155,7 +136,6 @@ public class CanvasViewController {
             createNewShape(mouseEvent);
         }
     }
-
     private int searchSelection(MouseEvent mouseEvent, int counter) {
         for (Shape s: model.getShapes()) {
             if (s.onClick(mouseEvent) && select) {
@@ -177,10 +157,13 @@ public class CanvasViewController {
         }
         return counter;
     }
-
     private void createNewShape(MouseEvent mouseEvent) {
+        clearSelection();
         Shape shape = Shape.createShape(choiceBox.getValue(), mouseEvent.getX(), mouseEvent.getY(), widthSlider.getValue(), heightSlider.getValue(), colorPicker.getValue());
         model.addShape(shape);
+        model.addSelectedList(shape);
+        shape.select();
+        shape.draw(context);
 
         Command undo = () -> {
             clearSelection();
@@ -192,9 +175,7 @@ public class CanvasViewController {
         undoCommandStack.push(unifiedCommand);
         redoCommandStack.clear();
     }
-
-    @FXML
-    protected void undoStack() {
+    private void undoStack() {
         if (undoCommandStack.size() > 0) {
             clearSelection();
 
@@ -206,11 +187,10 @@ public class CanvasViewController {
             double oldHeight = shape.getYSize();
             double newWidth = unifiedCommand.getWidth();
             double newHeight = unifiedCommand.getHeight();
-
+            model.addSelectedList(shape);
 
             CommandType commandType = unifiedCommand.getCommandType();
             Command redo = () -> {};
-
             if (commandType == CommandType.SHAPE)
                 redo = () -> {
                     clearSelection();
@@ -218,19 +198,20 @@ public class CanvasViewController {
                     model.addShape(shape);
                     drawShapes();
                 };
-
             if (commandType == CommandType.COLOR)
                 redo = () -> {
                     colorPicker.setValue(previousColor);
                     unifiedCommand.setColor(color);
                     shape.setColor(colorPicker.getValue());
                     clearSelection();
+                    model.addSelectedList(shape);
                     shape.select();
                     drawShapes();
                 };
             if (commandType == commandType.RESIZE)
                 redo = () -> {
                     clearSelection();
+                    model.addSelectedList(shape);
                     shape.select();
                     shape.reSizeX(oldWidth);
                     shape.reSizeY(oldHeight);
@@ -244,11 +225,7 @@ public class CanvasViewController {
             undoToExecute.execute();
         }
     }
-
-
-
-    @FXML
-    protected void redoStack() {
+    private void redoStack() {
         if (redoCommandStack.size() > 0) {
             clearSelection();
 
@@ -256,34 +233,33 @@ public class CanvasViewController {
             Shape shape = unifiedCommand.getShape();
             Color color = shape.getColor();
             Color previousColor = unifiedCommand.getColor();
+            model.addSelectedList(shape);
 
-            double oldWidth = shape.getXSize();
-            double oldHeight = shape.getYSize();
             double newWidth = unifiedCommand.getWidth();
             double newHeight = unifiedCommand.getHeight();
 
             CommandType commandType = unifiedCommand.getCommandType();
             Command undo = () ->{};
-
             if (commandType == CommandType.SHAPE)
                 undo = () -> {
                     clearSelection();
                     model.remove(shape);
                     drawShapes();
                 };
-
             if (commandType == CommandType.COLOR)
                 undo = () -> {
                     colorPicker.setValue(color);
                     unifiedCommand.setColor(previousColor);
                     shape.setColor(colorPicker.getValue());
                     clearSelection();
+                    model.addSelectedList(shape);
                     shape.select();
                     drawShapes();
                 };
             if (commandType == commandType.RESIZE)
                 undo = () -> {
                     clearSelection();
+                    model.addSelectedList(shape);
                     shape.select();
                     shape.reSizeX(newWidth);
                     shape.reSizeY(newHeight);
@@ -297,7 +273,8 @@ public class CanvasViewController {
             redoToExecute.execute();
         }
     }
-    private void clearSelection() {
+    @FXML
+    protected void clearSelection() {
         for (Shape s : model.getShapes())
             s.deSelect();
         for (Shape s : model.getSelectedShapes())
@@ -311,28 +288,27 @@ public class CanvasViewController {
         redoCommandStack.clear();
         model.removeAll();
     }
-
     @FXML
     protected void onUndoButtonClick() {
         undoStack();
     }
-
     @FXML
     protected void onRedoButtonClick() {
         redoStack();
     }
-    public void onCreateButtonClick(ActionEvent actionEvent) {
+    @FXML
+    protected void onCreateButtonClick(ActionEvent actionEvent) {
         clearSelection();
         select = false;
         choiceBox.setDisable(false);
     }
-
-    public void onSelectButtonClick(ActionEvent actionEvent) {
+    @FXML
+    protected void onSelectButtonClick(ActionEvent actionEvent) {
         choiceBox.setDisable(true);
         select = true;
     }
-
-    public void onApplyColorButtonClick(ActionEvent actionEvent) {
+    @FXML
+    protected void onApplyColorButtonClick(ActionEvent actionEvent) {
         if (model.getSelectedShapes().size() > 0) {
             Shape shape = model.getSelectedShapes().get(0);
             Color color = shape.getColor();
@@ -345,14 +321,15 @@ public class CanvasViewController {
                 shape.select();
                 drawShapes();
             };
+
             UnifiedCommand unifiedCommand = new UnifiedCommand(CommandType.COLOR, undo, shape, newColor, shape.getXSize(),shape.getYSize());
             undoCommandStack.push(unifiedCommand);
             redoCommandStack.clear();
             drawShapes();
         }
     }
-
-    public void onApplySizeButtonClick(ActionEvent actionEvent) {
+    @FXML
+    protected void onApplySizeButtonClick(ActionEvent actionEvent) {
         if (model.getSelectedShapes().size() > 0){
             Shape shape = model.getSelectedShapes().get(0);
             double oldWidth = shape.getXSize();
@@ -375,7 +352,6 @@ public class CanvasViewController {
         }
     }
 }
-
 @FunctionalInterface
 interface Command {
     public void execute();

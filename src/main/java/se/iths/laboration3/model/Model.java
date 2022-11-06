@@ -87,7 +87,7 @@ class ObsShape extends Shape {
     public boolean onClick(MouseEvent mouseEvent) {
         return shape.onClick(mouseEvent);
     }
-
+    @Override
     public Shape getShape() {
         return this.shape;
     }

@@ -36,7 +36,7 @@ public abstract class Shape {
     public Color getBorderColor() {
         return borderColor;
     }
-    public abstract boolean onClick(MouseEvent mouseEvent);
+
 
     public double getX() {
         return x;
@@ -51,7 +51,7 @@ public abstract class Shape {
         this.shape = shape;
     }
 
-    public abstract ShapeType getShapeType();
+
 
     public Color getColor() {
         return color;
@@ -81,9 +81,9 @@ public abstract class Shape {
     public int hashCode() {
         return Objects.hash(x, y, shape, color);
     }
-
+    public abstract boolean onClick(MouseEvent mouseEvent);
     public abstract void draw(GraphicsContext context);
-
+    public abstract ShapeType getShapeType();
     public abstract double getXSize();
     public abstract double getYSize();
     public abstract void reSizeX(double x);

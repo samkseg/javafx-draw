@@ -7,32 +7,32 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="599.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.iths.laboration3.controller.CanvasViewController">
    <children>
-      <Label layoutX="203.0" layoutY="17.0" prefHeight="17.0" prefWidth="43.0" text="Shape" />
-      <ChoiceBox fx:id="choiceBox" layoutX="169.0" layoutY="39.0" prefHeight="25.0" prefWidth="111.0" />
-      <Label layoutX="477.0" layoutY="16.0" text="Color" />
-      <ColorPicker fx:id="colorPicker" layoutX="463.0" layoutY="38.0" />
-      <Canvas fx:id="canvas" height="520.0" layoutY="80.0" onMouseClicked="#canvasClicked" width="800.0" />
-      <Label layoutX="338.0" layoutY="14.0" text="Size" />
-      <Slider fx:id="widthSlider" layoutX="338.0" layoutY="35.0" prefHeight="14.0" prefWidth="83.0" />
-      <Slider fx:id="heightSlider" layoutX="338.0" layoutY="50.0" prefHeight="24.0" prefWidth="83.0" showTickMarks="true" />
-      <Label fx:id="widthLabel" layoutX="295.0" layoutY="28.0" text="Width" />
-      <Label fx:id="heightLabel" layoutX="294.0" layoutY="48.0" text="Height" />
-      <Button fx:id="clearButton" layoutX="600.0" layoutY="38.0" mnemonicParsing="false" onAction="#onClearButtonClick" text="Clear" />
-      <Button fx:id="undoButton" layoutX="643.0" layoutY="38.0" mnemonicParsing="false" onAction="#onUndoButtonClick" text="Undo" />
-      <Button fx:id="redoButton" layoutX="689.0" layoutY="38.0" mnemonicParsing="false" onAction="#onRedoButtonClick" text="Redo" />
-      <TextField fx:id="widthText" layoutX="421.0" layoutY="27.0" prefHeight="19.0" prefWidth="29.0">
+      <Label layoutX="216.0" layoutY="9.0" prefHeight="17.0" prefWidth="43.0" text="Shape" />
+      <ChoiceBox fx:id="choiceBox" layoutX="182.0" layoutY="31.0" prefHeight="25.0" prefWidth="111.0" />
+      <Label layoutX="490.0" layoutY="8.0" text="Color" />
+      <ColorPicker fx:id="colorPicker" layoutX="476.0" layoutY="30.0" />
+      <Canvas fx:id="canvas" height="540.0" layoutY="60.0" onMouseClicked="#canvasClicked" width="800.0" />
+      <Label layoutX="351.0" layoutY="6.0" text="Size" />
+      <Slider fx:id="widthSlider" layoutX="351.0" layoutY="27.0" prefHeight="14.0" prefWidth="83.0" />
+      <Slider fx:id="heightSlider" layoutX="351.0" layoutY="42.0" prefHeight="24.0" prefWidth="83.0" showTickMarks="true" />
+      <Label fx:id="widthLabel" layoutX="308.0" layoutY="20.0" text="Width" />
+      <Label fx:id="heightLabel" layoutX="307.0" layoutY="40.0" text="Height" />
+      <Button fx:id="clearButton" layoutX="613.0" layoutY="30.0" mnemonicParsing="false" onAction="#onClearButtonClick" text="Clear" />
+      <Button fx:id="undoButton" layoutX="656.0" layoutY="30.0" mnemonicParsing="false" onAction="#onUndoButtonClick" text="Undo" />
+      <Button fx:id="redoButton" layoutX="702.0" layoutY="30.0" mnemonicParsing="false" onAction="#onRedoButtonClick" text="Redo" />
+      <TextField fx:id="widthText" layoutX="434.0" layoutY="19.0" prefHeight="19.0" prefWidth="29.0">
          <font>
             <Font size="9.0" />
          </font>
       </TextField>
-      <TextField fx:id="heightText" layoutX="421.0" layoutY="47.0" prefHeight="6.0" prefWidth="29.0">
+      <TextField fx:id="heightText" layoutX="434.0" layoutY="39.0" prefHeight="6.0" prefWidth="29.0">
          <font>
             <Font size="9.0" />
          </font>
       </TextField>
-      <Button fx:id="createButton" layoutX="53.0" layoutY="39.0" mnemonicParsing="false" onAction="#onCreateButtonClick" text="New" />
-      <Button fx:id="selectButton" layoutX="93.0" layoutY="39.0" mnemonicParsing="false" onAction="#onSelectButtonClick" text="Select" />
-      <Button fx:id="applyColorButton" layoutX="511.0" layoutY="9.0" mnemonicParsing="false" onAction="#onApplyColorButtonClick" text="Apply" />
-      <Button fx:id="applySizeButton" layoutX="367.0" layoutY="10.0" mnemonicParsing="false" onAction="#onApplySizeButtonClick" text="Apply" />
+      <Button fx:id="createButton" layoutX="55.0" layoutY="31.0" mnemonicParsing="false" onAction="#onCreateButtonClick" text="Create" />
+      <Button fx:id="selectButton" layoutX="106.0" layoutY="31.0" mnemonicParsing="false" onAction="#onSelectButtonClick" text="Select" />
+      <Button fx:id="applyColorButton" layoutX="524.0" layoutY="1.0" mnemonicParsing="false" onAction="#onApplyColorButtonClick" text="Apply" />
+      <Button fx:id="applySizeButton" layoutX="380.0" layoutY="2.0" mnemonicParsing="false" onAction="#onApplySizeButtonClick" text="Apply" />
    </children>
 </AnchorPane>
