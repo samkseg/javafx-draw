@@ -217,7 +217,7 @@ public class CanvasViewController {
                     shape.select();
                     drawShapes();
                 };
-            if (commandType == commandType.RESIZE)
+            if (commandType == CommandType.RESIZE)
                 redo = () -> {
                     clearSelection();
                     model.addSelectedList(shape);
