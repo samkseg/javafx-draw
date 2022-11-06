@@ -67,6 +67,7 @@ public abstract class Shape {
             case CIRCLE -> new Circle(x, y, color, width);
             case RECTANGLE -> new Rectangle(x, y, width, height, color);
             case TRIANGLE -> new Triangle(x, y, width, color);
+            case SQUARE -> new Square(x, y, width, color);
         };
     }
 

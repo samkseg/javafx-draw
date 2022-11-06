@@ -33,6 +33,8 @@ public class CanvasViewController {
     public Button clearButton;
     public Button undoButton;
     public Button redoButton;
+    public Button applyColorButton;
+    public Button applySizeButton;
     Model model = new Model();
     private boolean select;
     ObservableList<ShapeType> shapeTypesList = FXCollections.observableArrayList(ShapeType.values());
@@ -50,6 +52,8 @@ public class CanvasViewController {
         heightSlider.setMax(500);
         widthSlider.setValue(50);
         heightSlider.setValue(50);
+        widthText.setText("50");
+        heightText.setText("50");
         widthText.setText(String.valueOf(widthSlider.getValue()));
         heightText.setText(String.valueOf(heightSlider.getValue()));
         widthText.styleProperty().addListener(this::widthTextChange);
@@ -70,20 +74,9 @@ public class CanvasViewController {
     }
     private void widthSliderChange(Observable observable) {
         widthText.setText(String.valueOf((int) widthSlider.getValue()));
-        /*if (model.getSelectedShapes().size() > 0) {
-            var shape = model.getSelectedShapes().get(0).getShape().getShape();
-            shape.reSizeX(widthSlider.getValue());
-            drawShapes();
-        }*/
     }
     private void heightSliderChange(Observable observable) {
         heightText.setText(String.valueOf((int) heightSlider.getValue()));
-        /*if (model.getSelectedShapes().size() > 0) {
-            var shape = model.getSelectedShapes().get(0).getShape().getShape();
-            if (shape instanceof Rectangle)
-                shape.reSizeY(heightSlider.getValue());
-            drawShapes();
-        }*/
     }
     private void listChanged(Observable observable) {
         drawShapes();
@@ -104,8 +97,18 @@ public class CanvasViewController {
             case RECTANGLE -> arrangeRectSliders();
             case CIRCLE -> arrangeCircleSliders();
             case TRIANGLE -> arrangeTriangleSliders();
+            case SQUARE -> arrangeSquareSliders();
         }
     }
+
+    private void arrangeSquareSliders() {
+        widthLabel.setText("Side");
+        heightLabel.setText("");
+        heightLabel.setDisable(true);
+        heightSlider.setDisable(true);
+        heightText.setDisable(true);
+    }
+
     private void arrangeTriangleSliders() {
         widthLabel.setText("Side");
         heightLabel.setText("");
@@ -308,8 +311,10 @@ public class CanvasViewController {
             Shape shape = model.getSelectedShapes().get(0);
             double oldWidth = shape.getXSize();
             double oldHeight = shape.getYSize();
-            shape.reSizeX(Integer.parseInt(widthText.getText()));
-            shape.reSizeY(Integer.parseInt(heightText.getText()));
+            shape.reSizeX(Double.parseDouble(widthText.getText()));
+            if (shape.getShape() instanceof Rectangle) {
+                shape.reSizeY(Double.parseDouble(heightText.getText()));
+            }
 
             Command undo = () -> {
                 clearSelection();
