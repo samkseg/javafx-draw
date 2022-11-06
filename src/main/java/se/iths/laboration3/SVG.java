@@ -5,6 +5,8 @@ import javafx.stage.Stage;
 import se.iths.laboration3.model.Model;
 import se.iths.laboration3.shapes.Shape;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,12 @@ public class SVG {
             svgStringList.add(shape.toStringSVG());
         }
         svgStringList.add("</svg>");
+
+        try {
+            Files.write(path, svgStringList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     private static String beginSVG() {
         return "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"3840\" height=\"1080\">";
