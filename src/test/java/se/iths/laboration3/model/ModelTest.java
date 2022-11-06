@@ -1,9 +1,7 @@
-package se.iths.laboration3.controller;
-
+package se.iths.laboration3.model;
 
 import javafx.scene.paint.Color;
 import org.junit.jupiter.api.Test;
-import se.iths.laboration3.model.Model;
 import se.iths.laboration3.shapes.ObsShape;
 import se.iths.laboration3.shapes.Shape;
 import se.iths.laboration3.shapes.ShapeType;
@@ -11,7 +9,6 @@ import se.iths.laboration3.shapes.ShapeType;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ModelTest {
-
     @Test
     void createNewShapeAtPosition1212() {
         Model model = new Model();
@@ -22,7 +19,6 @@ class ModelTest {
         assertEquals(12, x);
         assertEquals(12, y);
     }
-
     @Test
     void addShapeToSelectedShapesList() {
         Model model = new Model();
@@ -34,7 +30,6 @@ class ModelTest {
         assertEquals(12, x);
         assertEquals(12, y);
     }
-
     @Test
     void addNewShapeAsObsShape() {
         Model model = new Model();
