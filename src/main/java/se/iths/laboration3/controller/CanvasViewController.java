@@ -159,7 +159,10 @@ public class CanvasViewController {
     }
     private void createNewShape(MouseEvent mouseEvent) {
         clearSelection();
-        Shape shape = Shape.createShape(choiceBox.getValue(), mouseEvent.getX(), mouseEvent.getY(), widthSlider.getValue(), heightSlider.getValue(), colorPicker.getValue());
+        Shape shape = Shape.createShape(choiceBox.getValue(),
+                mouseEvent.getX(), mouseEvent.getY(),
+                widthSlider.getValue(), heightSlider.getValue(),
+                colorPicker.getValue());
         model.addShape(shape);
         model.addSelectedList(shape);
         shape.select();
@@ -171,7 +174,9 @@ public class CanvasViewController {
             drawShapes();
         };
 
-        UnifiedCommand unifiedCommand = new UnifiedCommand(CommandType.SHAPE, undo, shape,shape.getColor(), shape.getXSize(),shape.getYSize());
+        UnifiedCommand unifiedCommand = new UnifiedCommand(CommandType.SHAPE,
+                undo, shape,shape.getColor(),
+                shape.getXSize(),shape.getYSize());
         undoCommandStack.push(unifiedCommand);
         redoCommandStack.clear();
     }
@@ -195,6 +200,7 @@ public class CanvasViewController {
                 redo = () -> {
                     clearSelection();
                     shape.select();
+                    model.addSelectedList(shape);
                     model.addShape(shape);
                     drawShapes();
                 };
@@ -218,9 +224,10 @@ public class CanvasViewController {
                     drawShapes();
             };
 
-            UnifiedCommand commandToRedo = new UnifiedCommand(commandType, redo, shape, previousColor, newWidth, newHeight);
+            UnifiedCommand commandToRedo = new UnifiedCommand(commandType,
+                    redo, shape, previousColor,
+                    newWidth, newHeight);
             redoCommandStack.push(commandToRedo);
-
             Command undoToExecute = unifiedCommand.getCommand();
             undoToExecute.execute();
         }
@@ -266,11 +273,56 @@ public class CanvasViewController {
                     drawShapes();
                 };
 
-            UnifiedCommand commandToUndo = new UnifiedCommand(commandType, undo, shape, previousColor, newWidth,newHeight);
+            UnifiedCommand commandToUndo = new UnifiedCommand(commandType,
+                    undo, shape, previousColor,
+                    newWidth,newHeight);
             undoCommandStack.push(commandToUndo);
-
             Command redoToExecute = unifiedCommand.getCommand();
             redoToExecute.execute();
+        }
+    }
+    private void applyColor() {
+        if (model.getSelectedShapes().size() > 0) {
+            Shape shape = model.getSelectedShapes().get(0);
+            Color color = shape.getColor();
+            Color newColor = colorPicker.getValue();
+            shape.setColor(newColor);
+
+            Command undo = () -> {
+                shape.setColor(color);
+                clearSelection();
+                shape.select();
+                drawShapes();
+            };
+
+            UnifiedCommand unifiedCommand = new UnifiedCommand(CommandType.COLOR,
+                    undo, shape, newColor,
+                    shape.getXSize(),shape.getYSize());
+            undoCommandStack.push(unifiedCommand);
+            redoCommandStack.clear();
+            drawShapes();
+        }
+    }
+    private void applyReSize() {
+        if (model.getSelectedShapes().size() > 0){
+            Shape shape = model.getSelectedShapes().get(0);
+            double oldWidth = shape.getXSize();
+            double oldHeight = shape.getYSize();
+            shape.reSizeX(Integer.parseInt(widthText.getText()));
+            shape.reSizeY(Integer.parseInt(heightText.getText()));
+
+            Command undo = () -> {
+                clearSelection();
+                shape.select();
+                shape.reSizeX(oldWidth);
+                shape.reSizeY(oldHeight);
+                drawShapes();
+            };
+
+            UnifiedCommand unifiedCommand = new UnifiedCommand(CommandType.RESIZE, undo, shape, shape.getColor(), oldWidth, oldHeight);
+            undoCommandStack.push(unifiedCommand);
+            redoCommandStack.clear();
+            drawShapes();
         }
     }
     @FXML
@@ -309,47 +361,11 @@ public class CanvasViewController {
     }
     @FXML
     protected void onApplyColorButtonClick(ActionEvent actionEvent) {
-        if (model.getSelectedShapes().size() > 0) {
-            Shape shape = model.getSelectedShapes().get(0);
-            Color color = shape.getColor();
-            Color newColor = colorPicker.getValue();
-            shape.setColor(newColor);
-
-            Command undo = () -> {
-                shape.setColor(color);
-                clearSelection();
-                shape.select();
-                drawShapes();
-            };
-
-            UnifiedCommand unifiedCommand = new UnifiedCommand(CommandType.COLOR, undo, shape, newColor, shape.getXSize(),shape.getYSize());
-            undoCommandStack.push(unifiedCommand);
-            redoCommandStack.clear();
-            drawShapes();
-        }
+        applyColor();
     }
     @FXML
     protected void onApplySizeButtonClick(ActionEvent actionEvent) {
-        if (model.getSelectedShapes().size() > 0){
-            Shape shape = model.getSelectedShapes().get(0);
-            double oldWidth = shape.getXSize();
-            double oldHeight = shape.getYSize();
-            shape.reSizeX(Integer.parseInt(widthText.getText()));
-            shape.reSizeY(Integer.parseInt(heightText.getText()));
-
-            Command undo = () -> {
-                clearSelection();
-                shape.select();
-                shape.reSizeX(oldWidth);
-                shape.reSizeY(oldHeight);
-                drawShapes();
-            };
-
-            UnifiedCommand unifiedCommand = new UnifiedCommand(CommandType.RESIZE, undo, shape, shape.getColor(), oldWidth, oldHeight);
-            undoCommandStack.push(unifiedCommand);
-            redoCommandStack.clear();
-            drawShapes();
-        }
+        applyReSize();
     }
 }
 @FunctionalInterface
