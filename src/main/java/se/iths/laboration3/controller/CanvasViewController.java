@@ -363,9 +363,11 @@ public class CanvasViewController {
         applyReSize();
     }
     @FXML
-    protected void onSaveButtonClick(ActionEvent actionEvent) {
-        saveImage.saveSVG(model);
+    protected void onSavePNGButtonClick(ActionEvent actionEvent) {
         saveImage.savePNG(canvas);
+    }
+    public void onSaveSVGButtonClick(ActionEvent actionEvent) {
+        saveImage.saveSVG(model);
     }
 }
 @FunctionalInterface
