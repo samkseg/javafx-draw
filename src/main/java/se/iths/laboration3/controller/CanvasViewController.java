@@ -103,7 +103,6 @@ public class CanvasViewController {
             case SQUARE -> arrangeSquareSliders();
         }
     }
-
     private void arrangeSquareSliders() {
         widthLabel.setText("Side");
         heightLabel.setText("");
@@ -111,7 +110,6 @@ public class CanvasViewController {
         heightSlider.setDisable(true);
         heightText.setDisable(true);
     }
-
     private void arrangeTriangleSliders() {
         widthLabel.setText("Side");
         heightLabel.setText("");
@@ -157,7 +155,6 @@ public class CanvasViewController {
     private void deSelectShape(Shape s) {
         choiceBox.setDisable(false);
         model.removeFromSelectedList();
-        s.isSelected = false;
     }
     private void selectShape(Shape s) {
         choiceBox.getSelectionModel().select(s.getShape().getShapeType());
@@ -165,8 +162,8 @@ public class CanvasViewController {
         heightSlider.setValue(s.getShape().getYSize());
         choiceBox.setDisable(true);
         colorPicker.setValue(s.getColor());
+
         model.addSelectedList(s);
-        s.isSelected = true;
     }
     protected void createNewShape(double x, double y) {
         clearSelection();

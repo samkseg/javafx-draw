@@ -55,6 +55,6 @@ public class Triangle extends Shape {
     }
     public String toStringSVG() {
         String color= "#"+getColor().toString().substring(2,10);
-        return "<polygon points=\"" + firstX + ", " + firstY + "  " + secondX + ", " + secondY + "  " + thirdX+ ", " + thirdY + "\" fill=\"" + color + "\" />";
+        return "<polygon points=\"" + (firstX + (size/2)) + ", " + (firstY + (size/2)) + "  " + (secondX + (size/2)) + ", " + (secondY + (size/2)) + "  " + (thirdX + (size/2)) + ", " + (thirdY + (size/2)) + "\" fill=\"" + color + "\" />";
     }
 }

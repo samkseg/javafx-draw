@@ -3,7 +3,6 @@ package se.iths.laboration3;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import se.iths.laboration3.model.Model;
-import se.iths.laboration3.shapes.Shape;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -16,14 +15,11 @@ public class SVG {
     public static void save(Model model) {
         prepareFileSave();
 
-        Path path = Path.of(fileChooser.showSaveDialog(new Stage()).getPath());
         List<String> svgStringList = new ArrayList<>();
+        Path path = Path.of(fileChooser.showSaveDialog(new Stage()).getPath());
         svgStringList.add(beginSVG());
-        for (Shape shape : model.getShapes()) {
-            svgStringList.add(shape.toStringSVG());
-        }
+        model.getShapes().forEach(shape -> svgStringList.add(shape.toStringSVG()));
         svgStringList.add("</svg>");
-
         try {
             Files.write(path, svgStringList);
         } catch (IOException e) {

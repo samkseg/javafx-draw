@@ -17,7 +17,7 @@ public abstract class Shape {
         this.y = y;
     }
     public void select() {
-        setBorderColor(Color.MAGENTA);
+        setBorderColor(Color.AQUAMARINE);
         isSelected = true;
     }
     public void deSelect(){
