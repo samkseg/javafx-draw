@@ -12,7 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import se.iths.laboration3.SVG;
+import se.iths.laboration3.saveImage;
 import se.iths.laboration3.model.Model;
 import se.iths.laboration3.shapes.*;
 
@@ -87,12 +87,8 @@ public class CanvasViewController {
     private void drawShapes() {
         var context = canvas.getGraphicsContext2D();
         context.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        for (Shape s : model.getShapes()) {
-            s.draw(context);
-        }
-        for (Shape s : model.getSelectedShapes()) {
-            s.draw(context);
-        }
+        model.getShapes().forEach(shape -> shape.draw(context));
+        model.getSelectedShapes().forEach(shape -> shape.draw(context));
     }
     private void choiceBoxChanged(Observable observable) {
         ShapeType shapeChoice = choiceBox.getSelectionModel().getSelectedItem();
@@ -329,21 +325,14 @@ public class CanvasViewController {
             drawShapes();
         }
     }
-    private void saveSVG() {
-        SVG.save(model);
-        try {
-            Image snapShot = canvas.snapshot(null,null);
-            ImageIO.write(SwingFXUtils.fromFXImage(snapShot, null), "png", new File("image.png"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    private void saveImageToFile() {
+        saveImage.saveSVG(model);
+        saveImage.savePNG(model, canvas);
     }
     @FXML
     protected void clearSelection() {
-        for (Shape s : model.getShapes())
-            s.deSelect();
-        for (Shape s : model.getSelectedShapes())
-            s.deSelect();
+        model.getShapes().forEach(Shape::deSelect);
+        model.getSelectedShapes().forEach(Shape::deSelect);
         model.getSelectedShapes().clear();
     }
     @FXML
@@ -382,7 +371,7 @@ public class CanvasViewController {
     }
     @FXML
     protected void onSaveButtonClick(ActionEvent actionEvent) {
-        saveSVG();
+        saveImageToFile();
     }
 }
 @FunctionalInterface

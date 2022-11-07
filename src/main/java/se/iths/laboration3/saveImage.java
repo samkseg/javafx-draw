@@ -1,19 +1,24 @@
 package se.iths.laboration3;
 
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import se.iths.laboration3.model.Model;
 
+import javax.imageio.ImageIO;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SVG {
+public class saveImage {
     static FileChooser fileChooser = new FileChooser();
-    public static void save(Model model) {
-        prepareFileSave();
+    public static void saveSVG(Model model) {
+        prepareSVGFileSave();
 
         List<String> svgStringList = new ArrayList<>();
         Path path = Path.of(fileChooser.showSaveDialog(new Stage()).getPath());
@@ -26,11 +31,21 @@ public class SVG {
             e.printStackTrace();
         }
     }
+    public static void savePNG(Model model, Canvas canvas) {
+        try {
+            Image snapShot = canvas.snapshot(null,null);
+            ImageIO.write(SwingFXUtils.fromFXImage(snapShot, null), "png", new File("image.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     private static String beginSVG() {
         return "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"3840\" height=\"1080\">";
     }
-    private static void prepareFileSave() {
+    private static void prepareSVGFileSave() {
         fileChooser.setTitle("Save as .svg");
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("SVG file",".svg"));
     }
+
+
 }
