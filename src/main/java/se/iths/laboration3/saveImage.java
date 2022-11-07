@@ -36,7 +36,7 @@ public class saveImage {
             prepareFileSave("Save as .png","PNG file",".png");
             Path path = Path.of(fileChooser.showSaveDialog(new Stage()).getPath());
             Image snapShot = canvas.snapshot(null,null);
-            ImageIO.write(SwingFXUtils.fromFXImage(snapShot, null), "png", new File(path + "image.png"));
+            ImageIO.write(SwingFXUtils.fromFXImage(snapShot, null), "png", new File(path + ""));
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (NullPointerException e) {}
