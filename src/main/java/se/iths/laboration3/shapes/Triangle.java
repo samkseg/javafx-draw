@@ -18,13 +18,7 @@ public class Triangle extends Shape {
         super.setColor(color);
         super.setBorderColor(Color.TRANSPARENT);
         this.size = size;
-        firstX = (int) (getX());
-        secondX = (int) (getX() + (size/2));
-        thirdX = (int) (getX() - (size/2));
-
-        firstY = (int) (getY() - (size/2));
-        secondY = (int) (getY() + (size)  - (size/2));
-        thirdY = (int) (getY() +(size) - (size/2));
+        updatePoints();
     }
     private Polygon calculatePolygon(){
         return new Polygon(firstX,firstY,secondX,secondY,thirdX,thirdY);
@@ -42,6 +36,15 @@ public class Triangle extends Shape {
                 return true;
         else return false;
     }
+    private void updatePoints() {
+        firstX = (int) (getX());
+        secondX = (int) (getX() + (size/2));
+        thirdX = (int) (getX() - (size/2));
+
+        firstY = (int) (getY() - (size/2));
+        secondY = (int) (getY() + (size)  - (size/2));
+        thirdY = (int) (getY() +(size) - (size/2));
+    }
     @Override
     public ShapeType getShapeType() {
         return ShapeType.TRIANGLE;
@@ -50,6 +53,7 @@ public class Triangle extends Shape {
     public double getYSize(){return size;}
     public void reSizeX (double size) {
         this.size = size;
+        updatePoints();
     }
     public void reSizeY(double y) {
     }

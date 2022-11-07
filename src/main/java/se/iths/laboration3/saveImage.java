@@ -31,7 +31,7 @@ public class saveImage {
             e.printStackTrace();
         }
     }
-    public static void savePNG(Model model, Canvas canvas) {
+    public static void savePNG(Canvas canvas) {
         try {
             Image snapShot = canvas.snapshot(null,null);
             ImageIO.write(SwingFXUtils.fromFXImage(snapShot, null), "png", new File("image.png"));

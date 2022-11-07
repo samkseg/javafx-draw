@@ -178,8 +178,7 @@ public class CanvasViewController {
         };
 
         UnifiedCommand unifiedCommand = new UnifiedCommand(CommandType.SHAPE,
-                undo, shape,shape.getColor(),
-                shape.getXSize(),shape.getYSize());
+                undo, shape,shape.getColor(), shape.getXSize(),shape.getYSize());
         undoCommandStack.push(unifiedCommand);
         redoCommandStack.clear();
     }
@@ -225,8 +224,7 @@ public class CanvasViewController {
             };
 
             UnifiedCommand commandToRedo = new UnifiedCommand(commandType,
-                    redo, shape, previousColor,
-                    newWidth, newHeight);
+                    redo, shape, previousColor, newWidth, newHeight);
             redoCommandStack.push(commandToRedo);
             Command undoToExecute = unifiedCommand.getCommand();
             undoToExecute.execute();
@@ -272,8 +270,7 @@ public class CanvasViewController {
                 };
 
             UnifiedCommand commandToUndo = new UnifiedCommand(commandType,
-                    undo, shape, previousColor,
-                    newWidth,newHeight);
+                    undo, shape, previousColor, newWidth,newHeight);
             undoCommandStack.push(commandToUndo);
             Command redoToExecute = unifiedCommand.getCommand();
             redoToExecute.execute();
@@ -294,8 +291,7 @@ public class CanvasViewController {
             };
 
             UnifiedCommand unifiedCommand = new UnifiedCommand(CommandType.COLOR,
-                    undo, shape, newColor,
-                    shape.getXSize(),shape.getYSize());
+                    undo, shape, newColor, shape.getXSize(),shape.getYSize());
             undoCommandStack.push(unifiedCommand);
             redoCommandStack.clear();
             drawShapes();
@@ -319,15 +315,12 @@ public class CanvasViewController {
                 drawShapes();
             };
 
-            UnifiedCommand unifiedCommand = new UnifiedCommand(CommandType.RESIZE, undo, shape, shape.getColor(), oldWidth, oldHeight);
+            UnifiedCommand unifiedCommand = new UnifiedCommand(CommandType.RESIZE,
+                    undo, shape, shape.getColor(), oldWidth, oldHeight);
             undoCommandStack.push(unifiedCommand);
             redoCommandStack.clear();
             drawShapes();
         }
-    }
-    private void saveImageToFile() {
-        saveImage.saveSVG(model);
-        saveImage.savePNG(model, canvas);
     }
     @FXML
     protected void clearSelection() {
@@ -371,7 +364,8 @@ public class CanvasViewController {
     }
     @FXML
     protected void onSaveButtonClick(ActionEvent actionEvent) {
-        saveImageToFile();
+        saveImage.saveSVG(model);
+        saveImage.savePNG(canvas);
     }
 }
 @FunctionalInterface
