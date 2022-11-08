@@ -128,7 +128,7 @@ public class CanvasViewController {
         heightText.setDisable(false);
     }
     @FXML
-    protected void canvasClicked(MouseEvent mouseEvent) {
+    private void canvasClicked(MouseEvent mouseEvent) {
         int counter = 0;
         counter = findSelection(mouseEvent, counter);
         if (counter == model.getShapes().size() && !selectMode) {
@@ -161,7 +161,7 @@ public class CanvasViewController {
 
         model.addSelectedList(s);
     }
-    protected void createNewShape(double x, double y) {
+    private void createNewShape(double x, double y) {
         clearSelection();
         Shape shape = Shape.createShape(choiceBox.getValue(),
                 x, y,
@@ -323,50 +323,51 @@ public class CanvasViewController {
         }
     }
     @FXML
-    protected void clearSelection() {
+    private void clearSelection() {
         model.getShapes().forEach(Shape::deSelect);
         model.getSelectedShapes().forEach(Shape::deSelect);
         model.getSelectedShapes().clear();
     }
     @FXML
-    protected void onClearButtonClick() {
+    private void onClearButtonClick() {
         context.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         undoCommandStack.clear();
         redoCommandStack.clear();
         model.removeAll();
     }
     @FXML
-    protected void onUndoButtonClick() {
+    private void onUndoButtonClick() {
         undoStack();
     }
     @FXML
-    protected void onRedoButtonClick() {
+    private void onRedoButtonClick() {
         redoStack();
     }
     @FXML
-    protected void onCreateButtonClick(ActionEvent actionEvent) {
+    private void onCreateButtonClick(ActionEvent actionEvent) {
         clearSelection();
         selectMode = false;
         choiceBox.setDisable(false);
     }
     @FXML
-    protected void onSelectButtonClick(ActionEvent actionEvent) {
+    private void onSelectButtonClick(ActionEvent actionEvent) {
         choiceBox.setDisable(true);
         selectMode = true;
     }
     @FXML
-    protected void onApplyColorButtonClick(ActionEvent actionEvent) {
+    private void onApplyColorButtonClick(ActionEvent actionEvent) {
         applyColor();
     }
     @FXML
-    protected void onApplySizeButtonClick(ActionEvent actionEvent) {
+    private void onApplySizeButtonClick(ActionEvent actionEvent) {
         applyReSize();
     }
     @FXML
-    protected void onSavePNGButtonClick(ActionEvent actionEvent) {
+    private void onSavePNGButtonClick(ActionEvent actionEvent) {
         saveImage.savePNG(canvas);
     }
-    public void onSaveSVGButtonClick(ActionEvent actionEvent) {
+    @FXML
+    private void onSaveSVGButtonClick(ActionEvent actionEvent) {
         saveImage.saveSVG(model);
     }
 }
