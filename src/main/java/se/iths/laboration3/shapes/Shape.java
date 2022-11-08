@@ -46,7 +46,7 @@ public abstract class Shape {
     public static Shape createShape(ShapeType type, double x, double y, double width, double height, Color color) {
 
         return switch (type) {
-            case CIRCLE -> new Circle(x, y, color, width);
+            case CIRCLE -> new Circle(x, y, width, color);
             case RECTANGLE -> new Rectangle(x, y, width, height, color);
             case TRIANGLE -> new Triangle(x, y, width, color);
             case SQUARE -> new Square(x, y, width, color);

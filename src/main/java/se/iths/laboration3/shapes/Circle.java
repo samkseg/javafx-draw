@@ -6,7 +6,7 @@ import javafx.scene.paint.Color;
 
 public class Circle extends Shape {
     private double diameter;
-    public Circle(double x, double y, Color color, double diameter) {
+    public Circle(double x, double y, double diameter, Color color) {
         super(x,y);
         super.setColor(color);
         super.setBorderColor(Color.TRANSPARENT);
