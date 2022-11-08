@@ -32,9 +32,7 @@ public class Triangle extends Shape {
     }
     @Override
     public boolean onClick(final MouseEvent mouseEvent){
-        if (calculatePolygon().contains(mouseEvent.getX(),mouseEvent.getY()))
-                return true;
-        else return false;
+        return calculatePolygon().contains(mouseEvent.getX(), mouseEvent.getY());
     }
     private void updatePoints() {
         firstX = (int) (getX());

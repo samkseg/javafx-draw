@@ -238,10 +238,9 @@ public class CanvasViewController {
             Shape shape = unifiedCommand.getShape();
             Color color = shape.getColor();
             Color previousColor = unifiedCommand.getColor();
-            model.addSelectedList(shape);
-
             double newWidth = unifiedCommand.getWidth();
             double newHeight = unifiedCommand.getHeight();
+            model.addSelectedList(shape);
 
             CommandType commandType = unifiedCommand.getCommandType();
             Command undo = () ->{};
