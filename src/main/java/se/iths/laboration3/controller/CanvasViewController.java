@@ -137,29 +137,29 @@ public class CanvasViewController {
         }
     }
     private int findSelection(MouseEvent mouseEvent, int counter) {
-        for (Shape s: model.getShapes()) {
-            if (s.onClick(mouseEvent) && selectMode) {
-                if (s.isSelected)
-                    deSelectShape(s);
-                if (!s.isSelected)
-                    selectShape(s);
+        for (Shape shape: model.getShapes()) {
+            if (shape.onClick(mouseEvent) && selectMode) {
+                if (shape.isSelected)
+                    deSelectShape();
+                if (!shape.isSelected)
+                    selectShape(shape);
             } else
                 counter++;
         }
         return counter;
     }
-    private void deSelectShape(Shape s) {
+    private void deSelectShape() {
         choiceBox.setDisable(false);
         model.removeFromSelectedList();
     }
-    private void selectShape(Shape s) {
-        choiceBox.getSelectionModel().select(s.getShape().getShapeType());
-        widthSlider.setValue(s.getShape().getXSize());
-        heightSlider.setValue(s.getShape().getYSize());
+    private void selectShape(Shape shape) {
+        choiceBox.getSelectionModel().select(shape.getShape().getShapeType());
+        widthSlider.setValue(shape.getShape().getXSize());
+        heightSlider.setValue(shape.getShape().getYSize());
         choiceBox.setDisable(true);
-        colorPicker.setValue(s.getColor());
+        colorPicker.setValue(shape.getColor());
 
-        model.addSelectedList(s);
+        model.addSelectedList(shape);
     }
     private void createNewShape(double x, double y) {
         clearSelection();

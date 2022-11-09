@@ -29,7 +29,7 @@ public class saveImage {
             Files.write(path, svgStringList);
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (NullPointerException e) {}
+        } catch (NullPointerException ignored) {}
     }
     public static void savePNG(Canvas canvas) {
         try {
@@ -39,10 +39,10 @@ public class saveImage {
             ImageIO.write(SwingFXUtils.fromFXImage(snapShot, null), "png", new File(path + ""));
         } catch (IOException e) {
             throw new RuntimeException(e);
-        } catch (NullPointerException e) {}
+        } catch (NullPointerException ignored) {}
     }
     private static String beginSVG() {
-        return "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"3840\" height=\"1080\">";
+        return "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"3840\" height=\"2160\">";
     }
 
     private static void prepareFileSave(String title, String description, String extension) {

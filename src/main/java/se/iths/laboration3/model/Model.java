@@ -27,8 +27,8 @@ public class Model {
         oShape.select();
     }
     public void removeFromSelectedList() {
-        for (Shape s : getSelectedShapes())
-            s.deSelect();
+        for (Shape shape : getSelectedShapes())
+            shape.deSelect();
         selectedShapes.clear();
     }
     public void addShape(Shape shape) {
