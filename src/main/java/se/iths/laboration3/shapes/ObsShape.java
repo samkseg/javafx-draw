@@ -1,19 +1,25 @@
 package se.iths.laboration3.shapes;
 
+
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import se.iths.laboration3.shapes.*;
 
 public class ObsShape extends Shape {
     Shape shape;
     ObjectProperty<Color> color = new SimpleObjectProperty<>();
     ObjectProperty<Color> borderColor = new SimpleObjectProperty<>();
+    DoubleProperty xSize = new SimpleDoubleProperty();
+    DoubleProperty ySize = new SimpleDoubleProperty();
     public ObsShape(Shape shape) {
         super(shape.getX(), shape.getY());
         this.shape = shape;
+        xSize.set(shape.getXSize());
+        ySize.set(shape.getYSize());
         color.set(shape.getColor());
         borderColor.set(shape.getBorderColor());
     }
@@ -22,6 +28,12 @@ public class ObsShape extends Shape {
     }
     public ObjectProperty<Color> borderColorProperty() {
         return borderColor;
+    }
+    public DoubleProperty xSizeProperty() {
+        return xSize;
+    }
+    public DoubleProperty ySizeProperty() {
+        return ySize;
     }
     @Override
     public boolean onClick(MouseEvent mouseEvent) {
@@ -72,10 +84,12 @@ public class ObsShape extends Shape {
     @Override
     public void reSizeX(double x) {
         this.shape.reSizeX(x);
+        xSize.set(shape.getXSize());
     }
     @Override
     public void reSizeY(double y) {
         this.shape.reSizeY(y);
+        ySize.set(shape.getYSize());
     }
     @Override
     public String toStringSVG() {

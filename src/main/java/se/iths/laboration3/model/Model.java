@@ -1,17 +1,16 @@
 package se.iths.laboration3.model;
 
 import javafx.beans.Observable;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import se.iths.laboration3.shapes.*;
 
 public class Model {
-    public ObjectProperty<ShapeType> currentShapeType = new SimpleObjectProperty<>(ShapeType.CIRCLE);
     private ObservableList<ObsShape> shapes = FXCollections.observableArrayList(param -> new Observable[]{
             param.colorProperty(),
-            param.borderColorProperty()
+            param.borderColorProperty(),
+            param.xSizeProperty(),
+            param.ySizeProperty()
     });
     private ObservableList<ObsShape> selectedShapes = FXCollections.observableArrayList();
     public ObservableList<? extends Shape> getShapes() {
@@ -21,15 +20,15 @@ public class Model {
         return selectedShapes;
     }
     public void addSelectedList(Shape shape) {
-        removeFromSelectedList();
+        clearSelection();
         var oShape = new ObsShape(shape);
         selectedShapes.add(oShape);
         oShape.select();
     }
-    public void removeFromSelectedList() {
-        for (Shape shape : getSelectedShapes())
-            shape.deSelect();
-        selectedShapes.clear();
+    public void clearSelection() {
+        getShapes().forEach(Shape::deSelect);
+        getSelectedShapes().forEach(Shape::deSelect);
+        getSelectedShapes().clear();
     }
     public void addShape(Shape shape) {
         var oShape = new ObsShape(shape);
