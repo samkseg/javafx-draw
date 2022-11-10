@@ -341,6 +341,7 @@ public class CanvasViewController {
     }
     @FXML
     private void onSavePNGButtonClick(ActionEvent actionEvent) {
+        model.clearSelection();
         saveImage.savePNG(canvas);
     }
     @FXML
